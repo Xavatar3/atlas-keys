@@ -32,3 +32,8 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Rust
+/target/
+/**/*.rs.bk
+Cargo.lock  
