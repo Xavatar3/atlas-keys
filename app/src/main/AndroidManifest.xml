@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="io.xavatarlabs.atlaskeys">
+
+	<!-- Permissions -->
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	<!--Enable other permissions when needed-->
+	<!--
+		<uses-permission android:name="android.permission.INTERNET"/>
+		<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+		<!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+	-->
+
+	<!--.Support RTL later.-->
+	<application
+		android:label="@string/app_name"
+		android:icon="@mipmap/ic_launcher"
+		android:theme="@style/Theme.KeyboardApp"
+		android:roundIcon="@mipmap/ic_launcher_round"
+		android:supportsRtl="true"
+		android:allowBackup="false">
+
+		<!-- Main activity -->
+		<activity android:name=".Core" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		
+		<!-- Settings Activity -->
+		<activity android:name=".Settings" android:exported="true" />
+
+			<!-- Input Method Service -->
+		<service
+			android:name=".IMEService"
+			android:permission="android.permission.BIND_INPUT_METHOD"
+			android:exported="true">
+			<intent-filter>
+				<action android:name="android.view.InputMethod"/>
+			</intent-filter>
+			<meta-data
+				android:name="android.view.im"
+				android:resource="@xml/method"/>
+		</service>
+
+	</application>
+</manifest>
