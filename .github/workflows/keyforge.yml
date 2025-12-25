@@ -37,6 +37,7 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper/
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          #key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle','**/gradle.properties') }}
           restore-keys: |
             gradle-
 
