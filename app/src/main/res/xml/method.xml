@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<input-method
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:settingsActivity="io.xavatarlabs.atlaskeys.Settings"
+	android:label="@string/app_name"
+	android:icon="@mipmap/ic_launcher">
+
+	<!-- Subtypes (Languages) -->
+	<subtype
+		android:label="@string/subtype_english"
+		android:imeSubtypeLocale="en_US"
+		android:icon="@mipmap/ic_launcher"
+		android:imeSubtypeMode="keyboard"/>
+
+	<subtype
+		android:label="@string/subtype_spanish"
+		android:imeSubtypeLocale="es_ES"
+		android:icon="@mipmap/ic_launcher"
+		android:imeSubtypeMode="keyboard"/>
+</input-method>
