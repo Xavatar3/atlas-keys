@@ -10,7 +10,7 @@ class Settings : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		
+
 		// Placeholder Settings(No UI yet)
 		val dummyView = TextView(this).apply {
 			text = "AtlasKeys Settings ⚙️\n(Placeholder)"
@@ -19,6 +19,9 @@ class Settings : AppCompatActivity() {
 			setBackgroundColor(Color.DKGRAY)
 			setPadding(32, 32, 32, 32)
 			gravity = Gravity.CENTER
+		}
+
 			setContentView(dummyView)
+
 	}
 }
