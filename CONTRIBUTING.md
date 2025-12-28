@@ -32,7 +32,6 @@ Optional detailed description if needed.
 [feature] Add predictive engine placeholder
 [bugfix] Fix crash on empty keyboard input
 [docs] Update README with getting started instructions
-[feature] Add initial Settings activity
 ```
 
 ---
@@ -94,11 +93,12 @@ main ━┓
 
 1. Push your branch to GitHub.  
 2. Open a PR targeting the `main` branch.  
-3. Use a descriptive PR title:
+3. Use a descriptive PR title:  
+  `[feature] Add initial Settings activity`
 4. Include context or relevant issues in the PR body.  
 5. Wait for review and CI checks to pass before merging.  
 
-**Note:** You don’t need a PR for personal branches unless merging into `main` or `develop`.  
+**Note:** You don’t need a PR for personal branches unless merging into `main` or `dev`.
 
 ---
 

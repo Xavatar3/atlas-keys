@@ -30,19 +30,50 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Cache Gradle packages
+        # Cache Gradle deps & wrapper per branch + OS.
+        # Hash includes all Gradle config files so cache updates when configs change, avoiding stale deps.
+      - name: Cache Gradle Packages📦
         uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper/
-          key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          #key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle','**/gradle.properties') }}
+          # Include critical filesin hash
+          key: gradle-cache-${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles(
+              '**/*.gradle',
+              '**/*.gradle.kts',
+              '**/settings.gradle',
+              '**/settings.gradle.kts',
+              '**/gradle.properties',
+              '**/gradle-wrapper.properties',
+              '**/libs.versions.toml'
+            ) }}
           restore-keys: |
-            gradle-
+            gradle-cache-${{ runner.os }}-${{ github.ref_name }}-
+            gradle-cache-${{ runner.os }}-main-
 
-      - name: Grant Execute Permissions for Gradlew
-        run: chmod +x ./gradlew
+      - name: Prepare environment
+        run: chmod +x ./gradlew #Grant Permission
+
+      - name: Lint Check 🧪
+        run: ./gradlew lint
 
       - name: Build App
-        run: ./gradlew assemble${{ github.event.inputs.build_type == 'release' && 'Release' || 'Debug' }}
+        run: ./gradlew assembleDebug assembleRelease #APKs 🔨
+        #run: ./gradlew assemble${{ github.event.inputs.build_type == 'release' && 'Release' || 'Debug' }}
+
+      #- name: Adjust Paths
+        #run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/AtlasKeys-debug.apk
+        #run: mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/AtlasKeys-release.apk
+
+      - name: Upload Debug APK 📤
+        uses: actions/upload-artifact@v4
+        with:
+          name: AtlasKeys-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Upload Release APK 📤
+        uses: actions/upload-artifact@v4
+        with:
+          name: AtlasKeys-release-apk
+          path: app/build/outputs/apk/release/*.apk
