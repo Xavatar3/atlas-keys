@@ -79,7 +79,7 @@
             android:id="@+id/key_symbols"
             style="@style/KeyStyle"
             android:layout_weight="1"
-            android:text="?123"/>
+            android:text="sym"/>
 
         <TextView
             android:id="@+id/key_space"
