@@ -9,7 +9,15 @@ import android.widget.TextView
 
 class IMEService : InputMethodService() {
 
-	override fun onCreateInputView(): View? {
+override fun onCreateInputView(): View {
+    return layoutInflater.inflate(
+        R.layout.keyboard,
+        null,
+        false
+    )
+}
+
+	/*override fun onCreateInputView(): View? {
 		// Dummy Keyboard UI 
 		val dummyView = TextView(this)
 		dummyView.text = "AtlasKeys 📍 \n (Keyboard Alive)"
@@ -19,7 +27,7 @@ class IMEService : InputMethodService() {
 		dummyView.setPadding(32, 32, 32, 32)
 		dummyView.gravity = Gravity.CENTER
 		return dummyView
-	}
+	}*/
 
 	override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
 		super.onStartInputView(info, restarting)
