@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   android:orientation="horizontal"
+   android:padding="8dp"
+   android:background="#222222">
+
+   <TextView
+      android:layout_width="0dp"
+      android:layout_height="48dp"
+      android:layout_weight="1"
+      android:gravity="center"
+      android:text="A"
+      android:textSize="18sp"
+      android:textColor="#FFFFFF"/>
+</LinearLayout>
+
+
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/keyboard_root"
     android:layout_width="match_parent"
@@ -8,7 +30,7 @@
     android:background="@color/keyboard_background"
     android:padding="4dp">
 
-    <!-- Row 1 -->
+    <!-- Row 1 --
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
@@ -26,7 +48,7 @@
         <TextView style="@style/KeyStyle" android:text="P"/>
     </LinearLayout>
 
-    <!-- Row 2 -->
+    <!-- Row 2 --
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
@@ -44,7 +66,7 @@
         <TextView style="@style/KeyStyle" android:text="L"/>
     </LinearLayout>
 
-    <!-- Row 3 -->
+    <!-- Row 3 --
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
@@ -69,7 +91,7 @@
             android:text="⌫"/>
     </LinearLayout>
 
-    <!-- Row 4 -->
+    <!-- Row 4 --
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -91,4 +113,4 @@
             android:text="⏎"/>
     </LinearLayout>
 
-</LinearLayout>
+</LinearLayout>-->
