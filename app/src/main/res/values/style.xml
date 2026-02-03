@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base Application Theme -->
-    <style name="Theme.KeyboardApp" parent="Theme.Material3.DayNight.NoActionBar">
-
+   <!-- Base Application Theme -->
+   <style name="Theme.KeyboardApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand colors -->
-        <item name="colorPrimary">@color/primary</item>
+       <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/on_primary</item>
 
         <!-- Secondary colors -->
@@ -26,43 +25,26 @@
         <item name="keyboardKeyTextColor">@color/keyboard_key_text</item>
 
     </style>
-
-    <!-- Light theme override -->
-    <style name="Theme.KeyboardApp.Light" parent="Theme.KeyboardApp">
-        <item name="android:windowBackground">@color/background_light</item>
-        <item name="keyboardBackground">@color/keyboard_background_light</item>
-    </style>
-
-    <!-- Dark theme override -->
-    <style name="Theme.KeyboardApp.Dark" parent="Theme.KeyboardApp">
-        <item name="android:windowBackground">@color/background_dark</item>
-        <item name="keyboardBackground">@color/keyboard_background_dark</item>
-    </style>
-
-    <!-- Key style (modular, reusable) -->
-    <style name="KeyStyle">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">17sp</item>
-        <item name="android:textColor">?attr/keyboardKeyTextColor</item>
-        <item name="android:background">@drawable/key_bg</item>
-        <item name="android:layout_margin">2dp</item>
-    </style>
-
-    <!-- Prediction bar text style -->
-    <style name="PredictionTextStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingStart">8dp</item>
-        <item name="android:paddingEnd">8dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">?attr/keyboardKeyTextColor</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:background">@drawable/prediction_bg</item>
-    </style>
-
+   
+   <!-- Key style (modular, reusable) -->
+   <style name="KeyStyle">
+      <item name="android:layout_width">0dp</item>
+      <item name="android:layout_height">48dp</item>
+      <item name="android:layout_weight">1</item>
+      <item name="android:gravity">center</item>
+      <item name="android:textSize">17sp</item>
+      <!-- white text 
+      <item name="android:textColor">?attr/keyboardKeyTextColor</item>-->
+      <item name="android:textColor">#FFFFFF</item>
+    <!-- simple background 
+      <item name="android:background">@drawable/key_bg</item>-->
+    <item name="android:background">@android:color/holo_blue_dark</item> 
+      <item name="android:layout_margin">2dp</item>
+   </style>
 </resources>
+   <!--
+    <item name="android:layout_margin">2dp</item>
+    <item name="android:padding">8dp</item>
+    <item name="android:clickable">true</item>
+    <item name="android:focusable">true</item>
+   -->
