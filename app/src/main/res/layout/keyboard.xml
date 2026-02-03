@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
    xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/keyboard_base"
    android:layout_width="match_parent"
-   android:layout_height="wrap_content"
-   android:orientation="horizontal"
-   android:padding="8dp"
-   android:background="#222222">
-
-   <TextView
-      android:layout_width="0dp"
-      android:layout_height="48dp"
-      android:layout_weight="1"
-      android:gravity="center"
-      android:text="A"
-      android:textSize="18sp"
-      android:textColor="#FFFFFF"/>
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:background="@color/keyboard_background"
+   android:padding="4dp">
+   
+   <!-- Row 1 -->
+   <LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:padding="3dp"
+      android:background="#222222">
+      
+      <TextView
+         android:layout_width="0dp"
+         android:layout_height="48dp"
+         android:layout_weight="1"
+         android:gravity="center"
+         android:text="A"
+         android:textSize="18sp"
+         android:textColor="#FFFFFF"/>
+         
+      <TextView style="@style/KeyStyle" android:text="Q"/>
+      <TextView style="@style/KeyStyle" android:text="W"/>
+      <TextView style="@style/KeyStyle" android:text="E"/>
+      <TextView style="@style/KeyStyle" android:text="R"/>
+      <TextView style="@style/KeyStyle" android:text="T"/>
+      <TextView style="@style/KeyStyle" android:text="Y"/>
+      <TextView style="@style/KeyStyle" android:text="U"/>
+      <TextView style="@style/KeyStyle" android:text="I"/>
+      <TextView style="@style/KeyStyle" android:text="O"/>
+      <TextView style="@style/KeyStyle" android:text="P"/>
+   </LinearLayout>
 </LinearLayout>
 
 
 
 
-<!--<?xml version="1.0" encoding="utf-8"?>
+<!--
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/keyboard_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/keyboard_background"
     android:padding="4dp">
 
      Row 1 
@@ -36,16 +55,7 @@
         android:layout_height="52dp"
         android:orientation="horizontal">
 
-        <TextView style="@style/KeyStyle" android:text="Q"/>
-        <TextView style="@style/KeyStyle" android:text="W"/>
-        <TextView style="@style/KeyStyle" android:text="E"/>
-        <TextView style="@style/KeyStyle" android:text="R"/>
-        <TextView style="@style/KeyStyle" android:text="T"/>
-        <TextView style="@style/KeyStyle" android:text="Y"/>
-        <TextView style="@style/KeyStyle" android:text="U"/>
-        <TextView style="@style/KeyStyle" android:text="I"/>
-        <TextView style="@style/KeyStyle" android:text="O"/>
-        <TextView style="@style/KeyStyle" android:text="P"/>
+       
     </LinearLayout>
 
      Row 2 
