@@ -17,14 +17,17 @@
 	<color name="background">#FFFFFF</color>
 
 	<!-- Keyboard-specific colors -->
-	<color name="keyboard_background">#E0E0E0</color>
-	<color name="keyboard_key">#FFFFFF</color>
-	<color name="keyboard_key_text">#000000</color>
+	<!--color name="keyboard_background">#E0E0E0</color-->
 
 	<color name="background_light">#FFFFFF</color>
 	<color name="keyboard_background_light">#F5F5F5</color>
 
 	<color name="background_dark">#121212</color>
 	<color name="keyboard_background_dark">#1E1E1E</color>
+
+<!-- Keyboard -->
+<color name="keyboard_background">#202124</color>
+<color name="keyboard_key">#303134</color>
+<color name="keyboard_key_text">#FFFFFF</color>
 
 </resources>
