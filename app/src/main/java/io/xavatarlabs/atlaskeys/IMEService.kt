@@ -4,52 +4,122 @@ import android.inputmethodservice.InputMethodService
 import android.view.inputmethod.EditorInfo
 import android.view.View
 import android.widget.TextView
-import android.graphics.Color
-import android.view.Gravity
+//import android.graphics.Color
+//import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.KeyEvent
 
 class IMEService : InputMethodService() {
 
-   // Set transparent theme later
+   // --- Keyboard state ---
+   private var shiftOn = false
+      
+   // --- Inflate keyboard and bind keys ---
    override fun onCreateInputView(): View {
-   
-      return layoutInflater.inflate(
-         R.layout.keyboard,
-        null,
-        false
-      )
-      
-      /*
-      return TextView(this).apply {
-         text = "AtlasKeys  📍 \n (Prototype)"
-         textSize = 18f
-         setTextColor(Color.WHITE)
-         setBackgroundColor(Color.DKGRAY)
-         gravity = Gravity.CENTER
-         setPadding(32, 32, 32, 32)
-      }
-      */
-      
+      val view = layoutInflater.inflate(R.layout.keyboard, null, false)
+      bindKeys(view)
+      return view
    }
    
-   // Improve this section later. and add privateImeOptions
-   // Auto pop up key board on switch etc
    override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
 		super.onStartInputView(info, restarting)
+		
+        // Reset shift state on new input field
+         shiftOn = false
+         updateLetterCase()
 	}
 	
-   // Later clean up here...
 	override fun onFinishInput() {
 		super.onFinishInput()
 	}
 	
+	// --- Bind every TextView key ---
+   private fun bindKeys(root: View) {
+      val keys = root.getTouchables()
+      for (key in keys) {
+         if (key is TextView) {
+            key.setOnClickListener {
+               handleKeyPress(key)
+            }
+         }
+      }
+   }
+   
+   // --- Handle key press actions ---
+   private fun handleKeyPress(key: TextView) {
+      val inputConnection = currentInputConnection ?: return
+      val tag = key.tag as? String
+      val label = key.text.toString()
+      
+      when (tag) {
+         "SHIFT" -> {
+            shiftOn = !shiftOn
+            updateLetterCase()
+         }
+         "BACKSPACE" -> {
+            inputConnection.deleteSurroundingText(1, 0)
+         }
+         "SPACE" -> {
+            inputConnection.commitText(" ", 1)
+            }
+         "ENTER" -> {
+            inputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+         }
+         else -> {
+            // Regular letter keys
+            val output = if (shiftOn) label.uppercase() else label.lowercase()
+            inputConnection.commitText(output, 1)
+
+            // shift off after one key
+                if (shiftOn) {
+                    shiftOn = false
+                    updateLetterCase()
+                }
+            }
+        }
+    }
+	
+	// --- Update visual letters according to shift state ---
+   private fun updateLetterCase() {
+      val root = window.window?.decorView ?: return
+      val keys = root.getTouchables()
+      for (key in keys) {
+         if (key is TextView && key.tag == null) {
+            val t = key.text.toString()
+            if (t.length == 1 && t[0].isLetter()) {
+               key.text = if (shiftOn) t.uppercase() else t.lowercase()
+                }
+            }
+      }
+   }
 }
+// Set transparent theme later
+// Improve onStartInputView later. and add privateImeOptions
+// Auto pop up key board on switch etc
+// Later clean up in onFinishInput...
+// later add shift locking
+// Have a more scalable bindKeys function
+// Improve memory between fields and sessions.
+//Easier text selection and cursor movement
+//Word delete → delete until space
+//Swipe delete → repeated calls
+//Selection delete → handled automatically by Android
+//Messaging apps → send message
+//Search fields → submit search
+//Forms → next field
+//Code editors → new line with indentation
+//Enter  - ic.performEditorAction(EditorInfo.IME_ACTION_DONE)
+// Backspace key event setup
+// Shift lock
+//symbolic and numeric view
+//Row backgrounds (#222222) are optional; can style per theme later.
+
 
 
 
 /*
 class IMEService : InputMethodService() {
-
+ 
     override fun onCreateInputView(): View {
         // Inflate your XML keyboard
         val keyboardView = layoutInflater.inflate(R.layout.keyboard, null, false)

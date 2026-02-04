@@ -54,7 +54,7 @@
       android:orientation="horizontal"
       android:padding="3dp">
 
-      <TextView style="@style/KeyStyle" android:text="⇧" android:layout_weight="1.5"/>
+      <TextView style="@style/KeyStyle" android:text="⇧" android:tag="SHIFT" android:layout_weight="1.5"/>
       <TextView style="@style/KeyStyle" android:text="Z"/>
       <TextView style="@style/KeyStyle" android:text="X"/>
       <TextView style="@style/KeyStyle" android:text="C"/>
@@ -62,7 +62,7 @@
       <TextView style="@style/KeyStyle" android:text="B"/>
       <TextView style="@style/KeyStyle" android:text="N"/>
       <TextView style="@style/KeyStyle" android:text="M"/>
-      <TextView style="@style/KeyStyle" android:text="⌫" android:layout_weight="1.5"/>
+      <TextView style="@style/KeyStyle" android:text="⌫" android:tag="BACKSPACE" android:layout_weight="1.5"/>
    </LinearLayout>
    
    <!-- Row 4 -->
@@ -72,12 +72,11 @@
       android:orientation="horizontal"
       android:padding="3dp">
 
-      <TextView style="@style/KeyStyle" android:text="123" android:layout_weight="1.5"/>
-      <TextView style="@style/KeyStyle" android:text="Space" android:layout_weight="4"/>
-      <TextView style="@style/KeyStyle" android:text="⏎" android:layout_weight="1.5"/>
+      <TextView style="@style/KeyStyle" android:text="123" android:tag="SYMBOLS" android:layout_weight="1.5"/>
+      <TextView style="@style/KeyStyle" android:text="Space" android:tag="SPACE" android:layout_weight="4"/>
+      <TextView style="@style/KeyStyle" android:text="⏎" android:tag="ENTER" android:layout_weight="1.5"/>
    </LinearLayout>
 </LinearLayout>
-
 
 
 

@@ -2,7 +2,7 @@
 name: Key Forge CI
 on:
   push:
-    branches: [ "main", "dev", "keyboard-layout-qwerty" ]
+    branches: [ "main", "dev", "feature**" ]
   pull_request:
     branches: [ "main", "dev" ]
 
