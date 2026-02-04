@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="keyboardBackground" format="color"/>
-    <attr name="keyboardKeyColor" format="color"/>
-    <attr name="keyboardKeyTextColor" format="color"/>
+    <attr name="keyboardBackground" format="color|reference"/>
+    <attr name="keyboardKeyColor" format="color|reference"/>
+    <attr name="keyboardKeyTextColor" format="color|reference"/>
 </resources>
