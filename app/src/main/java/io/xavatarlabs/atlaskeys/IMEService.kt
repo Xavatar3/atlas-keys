@@ -33,6 +33,7 @@ class IMEService : InputMethodService() {
    }
    
    // Improve this section later. and add privateImeOptions
+   // Auto pop up key board on switch etc
    override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
 		super.onStartInputView(info, restarting)
 	}
