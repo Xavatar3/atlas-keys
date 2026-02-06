@@ -7,13 +7,13 @@
 
 	<!-- Subtypes (Languages) -->
 	<subtype
-		android:label="@string/app_name"
+		android:label="@string/subtype_english"
 		android:imeSubtypeLocale="en_US"
 		android:icon="@mipmap/ic_launcher"
 		android:imeSubtypeMode="keyboard"/>
 
 	<subtype
-		android:label="@string/subtype_spanish"
+		android:label="@string/subtype_luganda"
 		android:imeSubtypeLocale="es_ES"
 		android:icon="@mipmap/ic_launcher"
 		android:imeSubtypeMode="keyboard"/>

@@ -77,3 +77,5 @@ jobs:
         with:
           name: AtlasKeys-release-apk
           path: app/build/outputs/apk/release/*.apk
+
+#Custom name apks
