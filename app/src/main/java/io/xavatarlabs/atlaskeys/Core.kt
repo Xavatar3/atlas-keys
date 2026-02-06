@@ -1,47 +1,29 @@
 package io.xavatarlabs.atlaskeys
 
 import android.os.Bundle
-import android.view.Gravity
-import android.graphics.Color
-import android.widget.TextView
-import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
+import io.xavatarlabs.atlaskeys.databinding.CoreBinding
 
-class Core: AppCompatActivity() {
-	override fun onCreate( savedInstanceState: Bundle? ) {
+class Core : AppCompatActivity() {
 
-		super.onCreate(savedInstanceState)
+    private lateinit var binding: CoreBinding
 
-		// Root layout
-		val rootLayout = LinearLayout(this).apply {
-			gravity = Gravity.CENTER
-			orientation = LinearLayout.VERTICAL
-			setBackgroundColor(ContextCompat.getColor(this@Core, R.color.background))
-			setPadding(32, 32, 32, 32)
-		}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        // Inflate using View Binding
+        binding = CoreBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-		// Title
-		val titleView = TextView(this).apply {
-			text = "AtlasKeys 🗝️"
-			textSize = 24f
-			setTextColor(ContextCompat.getColor(this@Core, R.color.on_surface))
-			gravity = Gravity.CENTER
-		}
+        //val semantic = BuildConfig.VERSION_NAME       // v1.2.56 format
+        val semantic = BuildConfig.VERSION_SEMANTIC        // e.g., "v1.2.56"
+        //val commitOnly = BuildConfig.VERSION_COMMITCOUNT   // v1234
+        val commitOnly = semantic.substringAfterLast('.')  // e.g., "56"
+        val dateVer = BuildConfig.VERSION_DATE         // v2026.02.06
 
-		// Placeholder Info
-		val infoView = TextView(this).apply {
-			text = "Core Activity Placeholder\nKeyboard Alive!"
-			textSize = 16f
-			setTextColor(ContextCompat.getColor(this@Core, R.color.on_surface_variant))
-			gravity = Gravity.CENTER
-			setPadding(0, 16, 0, 0)
-		}
-
-		// Add views to root
-		rootLayout.addView(titleView)
-		rootLayout.addView(infoView)
-		setContentView(rootLayout)
-
-	}
+        // Assign text to views using binding references
+        binding.tvVersionSemantic.text = "App Version: $semantic"
+        binding.tvVersionCommit.text = "Commits: $commitOnly"
+        binding.tvVersionDate.text = "Build Date: $dateVer"
+    }
 }

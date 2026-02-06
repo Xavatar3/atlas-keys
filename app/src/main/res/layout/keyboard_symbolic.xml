@@ -79,7 +79,7 @@
             style="@style/KeyStyle"
             android:layout_weight="4"
             android:text="Space"
-            android:tag="SPACE"/>
+            android:tag="␣"/>
 
         <TextView
             style="@style/KeyStyle"
