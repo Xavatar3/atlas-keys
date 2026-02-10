@@ -78,8 +78,8 @@
         <TextView
             style="@style/KeyStyle"
             android:layout_weight="4"
-            android:text="Space"
-            android:tag="␣"/>
+            android:text="␣"
+            android:tag="SPACE"/>
 
         <TextView
             style="@style/KeyStyle"
