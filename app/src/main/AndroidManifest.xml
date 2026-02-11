@@ -45,3 +45,7 @@
 
 	</application>
 </manifest>
+
+<!--
+keep foreground/background icons as vector drawables.
+-->
