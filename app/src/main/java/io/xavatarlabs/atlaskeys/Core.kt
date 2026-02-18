@@ -3,43 +3,29 @@ package io.xavatarlabs.atlaskeys
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.compose.runtime.*
 import androidx.compose.material.*
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.layout.Row
-
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-//import androidx.compose.material.icons.autoMirrored.Filled.ExitToApp
-import androidx.compose.material.icons.filled.ExitToApp
-
-//import androidx.compose.material3.ripple.ripple
-/*import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.ripple.RippleAlpha
-import androidx.compose.material3.ripple.RippleTheme
-import androidx.compose.material3.ripple.*/
-
+import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.platform.LocalDensity
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.roundToInt
 
 class Core : AppCompatActivity() {
 
@@ -48,10 +34,11 @@ class Core : AppCompatActivity() {
         setContent {
             Main {
                 DotMenuButton()
+                RadialDotMenu()
             }
         }
     }
-    
+
     @Composable
     fun Main(body: @Composable BoxScope.() -> Unit) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -65,28 +52,20 @@ class Core : AppCompatActivity() {
 
         Box(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(16.dp),
             contentAlignment = Alignment.TopEnd
         ) {
-            // Floating circular button
             Box(
                 modifier = Modifier
-                  .size(56.dp)
-                  .padding(16.dp)
-                  .clip(CircleShape)
-                  .background(Color.White)
-                  //.background(Color.White, CircleShape)
-                  .clickable(
-                    onClick = { menuExpanded = true },
-                    interactionSource = remember { MutableInteractionSource() },
-                    //indication = (color = Color.Gray)
-                    //indication = rememberRipple(color = Color.Gray, bounded = false, radius = 28.dp)
-                    //indication = rememberRipple(color = Color.Gray)
-                  ),
-                  //.(
-                    //color = Color.Gray,
-                    //bounded = false
-                  //),
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .clickable(
+                        onClick = { menuExpanded = true },
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -95,11 +74,7 @@ class Core : AppCompatActivity() {
                     tint = Color.Black
                 )
 
-                // Dropdown menu
-                Menu(
-                    expanded = menuExpanded,
-                    onDismiss = { menuExpanded = false }
-                )
+                Menu(expanded = menuExpanded) { menuExpanded = false }
             }
         }
     }
@@ -109,8 +84,7 @@ class Core : AppCompatActivity() {
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = onDismiss,
-            modifier = Modifier.background(Color.White, shape = RoundedCornerShape(12.dp)),
-            //elevation = 12.dp
+            modifier = Modifier.background(Color.White, shape = RoundedCornerShape(12.dp))
         ) {
             DropdownMenuItem(onClick = { println("Home clicked"); onDismiss() }) {
                 Row(modifier = Modifier.padding(horizontal = 8.dp)) {
@@ -147,7 +121,7 @@ class Core : AppCompatActivity() {
             DropdownMenuItem(onClick = { println("Logout clicked"); onDismiss() }) {
                 Row(modifier = Modifier.padding(horizontal = 8.dp)) {
                     Icon(
-                        imageVector = Icons.Default.ExitToApp, //Icons.AutoMirrored.Filled.ExitToApp, 
+                        imageVector = Icons.Default.ExitToApp,
                         contentDescription = "Logout",
                         tint = Color(0xFF333333),
                         modifier = Modifier.size(20.dp)
@@ -158,6 +132,61 @@ class Core : AppCompatActivity() {
                         color = Color.Black,
                         modifier = Modifier.padding(start = 12.dp)
                     )
+                }
+            }
+        }
+    }
+
+    // Radial Dot Menu (fixed to avoid toPx errors)
+    @Composable
+    fun RadialDotMenu() {
+        var expanded by remember { mutableStateOf(false) }
+        val radius = 100.dp
+        val density = LocalDensity.current // grab density once
+
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            FloatingActionButton(
+                onClick = { expanded = !expanded },
+                backgroundColor = Color(0xFF6200EE),
+                contentColor = Color.White
+            ) {
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "Menu"
+                )
+            }
+
+            if (expanded) {
+                val angleStep = 360f / 4
+                val buttons = listOf(
+                    Pair(Icons.Default.Email, "New Email"),
+                    Pair(Icons.Default.Message, "New Message"),
+                    Pair(Icons.Default.Event, "New Event"),
+                    Pair(Icons.Default.Settings, "Settings")
+                )
+
+                buttons.forEachIndexed { index, (icon, label) ->
+                    val angle = Math.toRadians((angleStep * index - 90).toDouble())
+                    val xOffset = with(density) { radius.toPx() * cos(angle) }
+                    val yOffset = with(density) { radius.toPx() * sin(angle) }
+
+                    Box(
+                        modifier = Modifier
+                            .offset { IntOffset(xOffset.roundToInt() * -1, yOffset.roundToInt()) }
+                            .size(56.dp)
+                    ) {
+                        FloatingActionButton(
+                            onClick = {
+                                println("$label clicked")
+                                expanded = false
+                            },
+                            backgroundColor = Color.White,
+                            contentColor = Color(0xFF6200EE),
+                            modifier = Modifier.shadow(4.dp)
+                        ) {
+                            Icon(icon, contentDescription = label)
+                        }
+                    }
                 }
             }
         }
