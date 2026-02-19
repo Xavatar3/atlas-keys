@@ -261,3 +261,7 @@ class IMEService : InputMethodService() {
  * ➤ Use this comment section as a living blueprint for incremental improvement
  */
 // Avoid Persistent sym keyboard after field is changed
+// Ecplore split apks
+// Partial apk compile, only changes
+// Generate Code insights e.g apk size with time
+// Refactor code

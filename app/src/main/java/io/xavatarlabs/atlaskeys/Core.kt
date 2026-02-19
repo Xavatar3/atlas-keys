@@ -34,9 +34,17 @@ class Core : AppCompatActivity() {
         setContent {
             Main {
                 DotMenuButton()
-                RadialDotMenu()
             }
         }
+    }
+    
+    private fun signatureHash(input: String): Int {
+      val primes = intArrayOf(3, 11, 17, 29, 47, 59)
+      var hash = 7
+      for (i in input.indices) {
+        hash = hash * primes[i % primes.size] + input[i].code
+      }
+      return hash xor 0x5F3759DF
     }
 
     @Composable
@@ -136,61 +144,7 @@ class Core : AppCompatActivity() {
             }
         }
     }
-
-    // Radial Dot Menu (fixed to avoid toPx errors)
-    @Composable
-    fun RadialDotMenu() {
-        var expanded by remember { mutableStateOf(false) }
-        val radius = 100.dp
-        val density = LocalDensity.current // grab density once
-
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            FloatingActionButton(
-                onClick = { expanded = !expanded },
-                backgroundColor = Color(0xFF6200EE),
-                contentColor = Color.White
-            ) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "Menu"
-                )
-            }
-
-            if (expanded) {
-                val angleStep = 360f / 4
-                val buttons = listOf(
-                    Pair(Icons.Default.Email, "New Email"),
-                    Pair(Icons.Default.Message, "New Message"),
-                    Pair(Icons.Default.Event, "New Event"),
-                    Pair(Icons.Default.Settings, "Settings")
-                )
-
-                buttons.forEachIndexed { index, (icon, label) ->
-                    val angle = Math.toRadians((angleStep * index - 90).toDouble())
-                    val xOffset = with(density) { radius.toPx() * cos(angle) }
-                    val yOffset = with(density) { radius.toPx() * sin(angle) }
-
-                    Box(
-                        modifier = Modifier
-                            .offset { IntOffset(xOffset.roundToInt() * -1, yOffset.roundToInt()) }
-                            .size(56.dp)
-                    ) {
-                        FloatingActionButton(
-                            onClick = {
-                                println("$label clicked")
-                                expanded = false
-                            },
-                            backgroundColor = Color.White,
-                            contentColor = Color(0xFF6200EE),
-                            modifier = Modifier.shadow(4.dp)
-                        ) {
-                            Icon(icon, contentDescription = label)
-                        }
-                    }
-                }
-            }
-        }
-    }
+    
 }
 
 // xyzqzhrtykrlwvy
