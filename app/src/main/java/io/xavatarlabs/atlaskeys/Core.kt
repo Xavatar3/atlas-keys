@@ -145,6 +145,31 @@ class Core : AppCompatActivity() {
         }
     }
     
+    @Composable
+fun AppVersionInfo() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "AtlasKeys - v${BuildConfig.VERSION_SEMANTIC}",
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text("Commit: ${BuildConfig.VERSION_COMMITCOUNT}")
+            Text("Date: ${BuildConfig.VERSION_DATE}")
+            Text("Time: ${BuildConfig.VERSION_TIME}")
+        }
+    }
+}
+    
 }
 
 // xyzqzhrtykrlwvy
