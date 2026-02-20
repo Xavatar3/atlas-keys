@@ -43,7 +43,13 @@ android {
         "null" // fallback if not a git repo
       }
       val versionSemantic: String = try {
-        val version = run("git", "describe", "--tags", "--abbrev=0").split(".")
+        val version = run("git", "tag", "--sort=-creatordate")
+          .lines()
+          .map { it.trim() }
+          .firstOrNull { tag ->
+            run("git", "merge-base", "--is-ancestor", tag, "HEAD").let { result -> result.isEmpty() }
+          } ?: "no-tag"
+        //val version = run("git", "describe", "--tags", "--abbrev=0").split(".")
         val major = version.getOrNull(0)
         val minor = version.getOrNull(1)
         val tagCommitCount = run("git", "rev-list", "$version..HEAD", "--count")

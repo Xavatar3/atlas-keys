@@ -34,6 +34,7 @@ class Core : AppCompatActivity() {
         setContent {
             Main {
                 DotMenuButton()
+                AppVersionInfo()
             }
         }
     }
@@ -158,7 +159,7 @@ fun AppVersionInfo() {
         ) {
             Text(
                 text = "AtlasKeys - v${BuildConfig.VERSION_SEMANTIC}",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.h6
             )
 
             Spacer(modifier = Modifier.height(8.dp))
