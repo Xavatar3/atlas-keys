@@ -59,7 +59,7 @@ android {
       }
       
       versionCode = versionCommitCount.toIntOrNull()
-      versionName = versionSemantic
+      versionName = versionSemantic.toString()
       
       //Later alert if version is null
       buildConfigField(
