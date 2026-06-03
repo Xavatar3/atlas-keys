@@ -1,15 +1,14 @@
-# Workflow for automating build
 name: Key Forge CI
+
 on:
   push:
-    branches: [ "main", "dev", "keyboard-layout-qwerty" ]
+    branches: [ "main", "dev", "feature**" ]
   pull_request:
     branches: [ "main", "dev" ]
-
   workflow_dispatch:
     inputs:
       build_type:
-        description: 'Choose build type'
+        description: 'Select build type'
         required: true
         default: 'debug'
         type: choice
@@ -20,25 +19,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
+        
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
 
-        # Cache Gradle deps & wrapper per branch + OS.
-        # Hash includes all Gradle config files so cache updates when configs change, avoiding stale deps.
       - name: Cache Gradle Packages📦
         uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper/
-          # Include critical filesin hash
           key: gradle-cache-${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles(
               '**/*.gradle',
               '**/*.gradle.kts',
@@ -53,27 +50,89 @@ jobs:
             gradle-cache-${{ runner.os }}-main-
 
       - name: Prepare environment
-        run: chmod +x ./gradlew #Grant Permission
+        run: chmod +x ./gradlew
+
+      # — Restore Debug Keystore from Secret —
+      - name: Restore Debug Keystore
+        id: restore_keystore
+        run: |
+          if [ -n "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" ]; then
+            mkdir -p .github/keystore
+            printf "%s" "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > .github/keystore/debug.keystore
+            echo "restored=true" >> $GITHUB_OUTPUT
+          else
+            echo "restored=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate Keystore if Missing
+        if: steps.restore_keystore.outputs.restored == 'false'
+        run: |
+          mkdir -p .github/keystore
+          keytool -genkeypair -v \
+            -keystore .github/keystore/debug.keystore \
+            -storepass android \
+            -alias androiddebugkey \
+            -keypass android \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+          echo "⚠️ No secret found — generated a temporary keystore."
+
+      - name: Print keystore as Base64 🔐
+        run: |
+          base64 .github/keystore/debug.keystore | tee debug_keystore.b64
+          echo "----- COPY the below output into your GitHub secret -----"
+          cat debug_keystore.b64
+
+      - name: Place debug keystore
+        run: |
+          mkdir -p ~/.android
+          cp .github/keystore/debug.keystore ~/.android/debug.keystore
 
       - name: Lint Check 🧪
         run: ./gradlew lint
 
       - name: Build App
-        run: ./gradlew assembleDebug assembleRelease #APKs 🔨
-        #run: ./gradlew assemble${{ github.event.inputs.build_type == 'release' && 'Release' || 'Debug' }}
+        run: ./gradlew assembleDebug assembleRelease
 
-      #- name: Adjust Paths
-        #run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/AtlasKeys-debug.apk
-        #run: mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/AtlasKeys-release.apk
+      - name: Get versionName 🏷️
+        id: get_version
+        run: |
+          VERSION_NAME=$(./gradlew -q printVersionName)
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+
+      - name: Rename Debug APK 📦
+        run: |
+          VERSION=${{ steps.get_version.outputs.version_name }}
+          cd app/build/outputs/apk/debug
+          ls
+          APK=$(ls *.apk | head -n 1)
+          mv "$APK" "Atlas-keys-${VERSION}-debug.apk"
+          ls
+
+      - name: Rename Release APK 📦
+        run: |
+          VERSION=${{ steps.get_version.outputs.version_name }}
+          cd app/build/outputs/apk/release
+          ls
+          APK=$(ls *.apk | head -n 1)
+          mv "$APK" "Atlas-keys-${VERSION}-release.apk"
+          ls
 
       - name: Upload Debug APK 📤
         uses: actions/upload-artifact@v4
         with:
-          name: AtlasKeys-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          name: AtlasKeys-debug-v${{ steps.get_version.outputs.version_name }}
+          path: app/build/outputs/apk/debug/Atlas-keys-*-debug.apk
+          if-no-files-found: error
 
       - name: Upload Release APK 📤
         uses: actions/upload-artifact@v4
         with:
-          name: AtlasKeys-release-apk
-          path: app/build/outputs/apk/release/*.apk
+          name: AtlasKeys-release-v${{ steps.get_version.outputs.version_name }}
+          path: app/build/outputs/apk/release/Atlas-keys-*-release.apk
+          if-no-files-found: error
+
+
+# Add pro, beta, alpha, prod, debug etc
