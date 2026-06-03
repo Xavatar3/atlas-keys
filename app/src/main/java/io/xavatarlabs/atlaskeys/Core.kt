@@ -150,7 +150,7 @@ class Core : AppCompatActivity() {
 fun AppVersionInfo() {
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize() 
             .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
