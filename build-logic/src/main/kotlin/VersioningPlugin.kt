@@ -39,7 +39,6 @@ class VersioningPlugin : Plugin<Project> {
     val versionDate = git.commitDate()
     val versionTime = git.commitTime()
     val versionCommitCount = commitCount.toString()
-    val versionCode = commitCount 
     val versionSemantic = semanticVersion(git)
 
 
@@ -53,7 +52,7 @@ class VersioningPlugin : Plugin<Project> {
       val android = p.extensions.getByType(ApplicationExtension::class.java)
       android.defaultConfig.apply {
         versionName = versionSemantic
-        versionCode = versionCode
+        versionCode = commitCount
         
         buildConfigField(
           "String", 
