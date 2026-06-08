@@ -4,16 +4,22 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
     plugins {
-      id "org.jetbrains.kotlin.android" version "1.9.10"
+        id("org.jetbrains.kotlin.android") version "1.9.10"
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
     repositories {
-        google()       // AndroidX and Play services artifacts
-        mavenCentral() // Most open‑source artifacts
+        google()
+        mavenCentral()
     }
 }
+
 rootProject.name = "AtlasKeys"
-include ':app'
+
+include(":app")
+includeBuild("build-logic")
