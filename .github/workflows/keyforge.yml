@@ -96,12 +96,6 @@ jobs:
       - name: Build App
         run: ./gradlew assembleDebug assembleRelease
 
-      - name: Get versionName 🏷️
-        id: get_version
-        run: |
-          VERSION_NAME=$(./gradlew -q printVersionName)
-          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
-
       - name: Rename Debug APK 📦
         run: |
           VERSION=${{ steps.get_version.outputs.version_name }}

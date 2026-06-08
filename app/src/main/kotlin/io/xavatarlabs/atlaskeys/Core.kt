@@ -164,7 +164,7 @@ fun AppVersionInfo() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text("Commit: ${BuildConfig.VERSION_COMMITCOUNT}")
+            Text("Commit: ${BuildConfig.VERSION_COMMIT_COUNT}")
             Text("Date: ${BuildConfig.VERSION_DATE}")
             Text("Time: ${BuildConfig.VERSION_TIME}")
         }
