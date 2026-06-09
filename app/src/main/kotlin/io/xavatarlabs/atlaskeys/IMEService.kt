@@ -1,4 +1,4 @@
-package io.xavatarlabs.atlaskeys.ime
+package io.xavatarlabs.atlaskeys
 
 import android.inputmethodservice.InputMethodService
 import android.view.View
@@ -20,7 +20,7 @@ class IMEService : InputMethodService() {
   private lateinit var inputHandler: InputHandler
 
   override fun onCreateInputView(): View {
-    val view = layoutInflater.inflate(R.layout.keyboard, null)
+    val view = layoutInflater.inflate(R.layout.keyboard_root, null)
     //root = FrameLayout(this)
     root = view.findViewById(R.id.keyboard_root)
     body = view.findViewById<FrameLayout>(R.id.keyboard_body)
