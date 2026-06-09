@@ -6,12 +6,14 @@ import io.xavatarlabs.atlaskeys.structures.Key
 import io.xavatarlabs.atlaskeys.structures.Types
 
 class InputHandler(
-  private val ic: InputConnection,
+  private val ic: () -> InputConnection?,
   private val state: State,
   private val refresh: () -> Unit
 ) {
 
   fun handleKeyPress(key: Key) {
+
+    val conn = ic() ?: return
 
     when (key.type) {
 
@@ -21,13 +23,13 @@ class InputHandler(
       }
 
       Types.DELETE ->
-        ic.deleteSurroundingText(1, 0)
+        conn.deleteSurroundingText(1, 0)
 
       Types.SPACE ->
-        ic.commitText(" ", 1)
+        conn.commitText(" ", 1)
 
       Types.ENTER ->
-        ic.sendKeyEvent(
+        conn.sendKeyEvent(
           KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER)
         )
 
@@ -36,7 +38,7 @@ class InputHandler(
           if (state.shift) key.label.uppercase()
           else key.label.lowercase()
 
-        ic.commitText(output, 1)
+        conn.commitText(output, 1)
 
         if (state.shift) {
           state.shift = false
