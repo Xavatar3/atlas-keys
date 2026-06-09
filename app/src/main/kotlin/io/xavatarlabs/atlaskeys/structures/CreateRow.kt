@@ -4,9 +4,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 
 fun createRow(
-  parent: ViewGroup,
-  row: List<Key>,
-  createKey: (Key) -> ViewGroup
+  parent: ViewGroup, row: List<Key>,
+  height: Int, createKey: (Key) -> ViewGroup
 ): LinearLayout {
 
   return LinearLayout(parent.context).apply {
