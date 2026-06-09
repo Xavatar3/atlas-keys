@@ -1,137 +1,56 @@
-package io.xavatarlabs.atlaskeys
+package io.xavatarlabs.atlaskeys.ime
 
 import android.inputmethodservice.InputMethodService
-import android.view.inputmethod.EditorInfo
 import android.view.View
-import android.widget.TextView
-import android.view.LayoutInflater
-import android.view.KeyEvent
 import android.widget.FrameLayout
-import android.view.ViewGroup
+
+import io.xavatarlabs.atlaskeys.engine.State
+import io.xavatarlabs.atlaskeys.engine.InputHandler
+import io.xavatarlabs.atlaskeys.layout.qwertyMatrix
+import io.xavatarlabs.atlaskeys.structures.KeyView
+import io.xavatarlabs.atlaskeys.structures.KeyboardRenderer
 
 class IMEService : InputMethodService() {
 
-   // --- Keyboard state ---
-   private var shiftOn = false
-   private var shiftLocked = false
-   private var symbolsOn = false
-   private var layoutId = R.layout.keyboard_alpha
-   private lateinit var root: ViewGroup
-   private lateinit var layout: View
-   
-   // ➤ Inflate keyboard and bind keys
-   override fun onCreateInputView(): View {
-      root = layoutInflater.inflate(R.layout.keyboard_root, null, false) as ViewGroup
-      showLayout(layoutId)
-      return root
-   }
-   
-   // → Reset state when a new input field is focused
-   override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
-      super.onStartInputView(info, restarting)
-      
-      /**
-       * Reset temporary shift and symbol states
-       * for each new input field to prevent unintended caps or symbol typing
-       */
-      shiftOn = false
-      symbolsOn = false
-      updateLetterCase(layout)
-   }
-   
-   override fun onFinishInput() {
-      super.onFinishInput()
-   }
-   
-   // -> Bind keys recursively
-   private fun bindKeys(layout: View) {
-      when(layout) {
-         is TextView -> layout.setOnClickListener { handleKeyPress(layout) }
-         is ViewGroup -> {
-            for (i in 0 until layout.childCount) {
-                bindKeys(layout.getChildAt(i))
-            }
-         }
-      }
-   }
-   
-   // ⚡ Handle key presses
-   private fun handleKeyPress(key: TextView) {
-      val inputConnection = currentInputConnection ?: return
-      val tag = key.tag as? String
-      val label = key.text.toString()
-      
-      when (tag) {
-         "SHIFT" -> {
-            // → Single tap: shift for one letter
-            // → Double tap: shift lock (caps lock)
-            // → Reset: if already locked
-            if (shiftOn && !shiftLocked) { shiftLocked = true
-            } else if (shiftLocked) {
-               shiftOn = false
-               shiftLocked = false
-            } else {
-               shiftOn = true 
-            }
-            updateLetterCase(layout)
-         }
-         "BACKSPACE" -> inputConnection.deleteSurroundingText(1, 0)
-         "SPACE" -> inputConnection.commitText(" ", 1)
-         "ENTER" -> inputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
-         "SYMBOLS" -> toggleSymbols(true)
-         "LETTERS" -> toggleSymbols(false)
-         else -> {
-            val output = if (shiftOn) label.uppercase() else label.lowercase()
-            inputConnection.commitText(output, 1)
+  private lateinit var root: FrameLayout
+  private lateinit var body: FrameLayout
+  private val state = State()
 
-            // ↓ Reset shift if it was temporary
-            if (!shiftLocked && shiftOn) {
-               shiftOn = false
-               updateLetterCase(layout)
-            }
-         }
-      }
-   }
+  private lateinit var renderer: KeyboardRenderer
+  private lateinit var inputHandler: InputHandler
 
-   // ✎ Update visual letters based on shift state
-   private fun updateLetterCase(layout: View) {
-      when (layout) {
-         is TextView -> {
-            if (layout.tag == "letterKey") {
-               val text = layout.text.toString()
-               if (text.length == 1 && text[0].isLetter()) { 
-                   layout.text = if (shiftOn) text.uppercase() else text.lowercase() 
-               }
-            }
-         }
-         is ViewGroup -> {
-            for (i in 0 until layout.childCount) {
-               updateLetterCase(layout.getChildAt(i))
-            }
-         }
-      }
-   }
+  override fun onCreateInputView(): View {
+    val view = layoutInflater.inflate(R.layout.keyboard, null)
+    //root = FrameLayout(this)
+    root = view.findViewById(R.id.keyboard_root)
+    body = view.findViewById<FrameLayout>(R.id.keyboard_body)
 
-   // ➔ Show keyboard layout dynamically
-   private fun showLayout(source: Int) {
-      root.removeAllViews()
-      layoutId = source
-      layout = layoutInflater.inflate(layoutId, root, false)
-      bindKeys(layout)
-      root.addView(layout)
-      updateLetterCase(layout)
-   }
-   
-   // → Toggle between letters and symbols
-   private fun toggleSymbols(status: Boolean) {
-      symbolsOn = status
-      if (symbolsOn) {
-         showLayout(R.layout.keyboard_symbolic)
-      } else {
-         showLayout(R.layout.keyboard_alpha)
+    renderer = KeyboardRenderer(state) { key ->
+      KeyView(this).apply {
+        tag = key
+        bind(key, state)
+
+        setOnClickListener {
+          inputHandler.handleKeyPress(key)
+        }
       }
-      updateLetterCase(layout)
-   }
+    }
+
+    inputHandler = InputHandler(
+      { currentInputConnection }, state
+    ) { renderer.refresh(root) }
+
+    renderer.render(body, qwertyMatrix)
+
+    return root
+  }
+
+  override fun onStartInputView(info: android.view.inputmethod.EditorInfo?, restarting: Boolean) {
+    super.onStartInputView(info, restarting)
+
+    state.shift = false
+    renderer.refresh(root)
+  }
 }
 
 /**
