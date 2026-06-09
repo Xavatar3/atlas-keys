@@ -1,8 +1,9 @@
 package io.xavatarlabs.atlaskeys
 
-import android.inputmethodservice.InputMethodService
 import android.view.View
 import android.widget.FrameLayout
+import android.view.inputmethod.EditorInfo
+import android.inputmethodservice.InputMethodService
 
 import io.xavatarlabs.atlaskeys.engine.State
 import io.xavatarlabs.atlaskeys.engine.InputHandler
@@ -21,7 +22,7 @@ class IMEService : InputMethodService() {
 
   override fun onCreateInputView(): View {
     val view = layoutInflater.inflate(R.layout.keyboard_root, null)
-    //root = FrameLayout(this)
+
     root = view.findViewById(R.id.keyboard_root)
     body = view.findViewById<FrameLayout>(R.id.keyboard_body)
 
@@ -44,10 +45,11 @@ class IMEService : InputMethodService() {
 
     return root
   }
-
-  override fun onStartInputView(info: android.view.inputmethod.EditorInfo?, restarting: Boolean) {
+  
+  override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
     super.onStartInputView(info, restarting)
 
+    //requestShowSelf(android.inputmethodservice.InputMethodService.SHOW_IMPLICIT)
     state.shift = false
     renderer.refresh(root)
   }
