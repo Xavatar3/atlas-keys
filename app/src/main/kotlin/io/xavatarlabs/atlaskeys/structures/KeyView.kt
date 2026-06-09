@@ -19,7 +19,7 @@ class KeyView(context: Context) : FrameLayout(context) {
     )
 
     labelView.gravity = Gravity.CENTER
-    labelView.textSize = 16f
+    labelView.textSize = 21f
   }
 
   fun bind(key: Key, state: State) {
