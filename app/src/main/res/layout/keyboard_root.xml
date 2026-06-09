@@ -21,19 +21,10 @@
     android:orientation="vertical"
     android:padding="1dp">
     
-    <!-- Suggestion Row -->
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/suggestion_row"
-      android:background="#22FF0000"
-      android:layout_width="match_parent"
-      android:layout_height="44dp"
-      android:overScrollMode="never"
-      android:paddingHorizontal="8dp" />
-    
     <!-- Control Row -->
     <HorizontalScrollView
       android:layout_width="match_parent"
-      android:layout_height="44dp"
+      android:layout_height="40dp"
       android:scrollbars="none"
       android:paddingHorizontal="8dp">
       
@@ -67,6 +58,15 @@
 
 
     </HorizontalScrollView>
+    
+    <!-- Suggestion Row -->
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/suggestion_row"
+      android:background="#22334400"
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:overScrollMode="never"
+      android:paddingHorizontal="8dp" />
     
     <!-- Keyboard Body -->
     <FrameLayout
