@@ -12,7 +12,7 @@ android {
     applicationId = "io.xavatarlabs.atlaskeys"
     minSdk = 23 //Android 6.0 - Marshmellow
     targetSdk = 35 // API 35 (Android 15)
-    versionCode = 0 // Set by versioning plugin
+    versionCode = 1 // Set by versioning plugin
     versionName = "0.0.0" // Set by versioning plugin
   }
   
