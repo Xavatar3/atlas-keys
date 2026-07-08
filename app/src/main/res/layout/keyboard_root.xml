@@ -7,12 +7,6 @@
   android:layout_height="match_parent"
   android:background="@color/keyboard_background">
 
-  <!-- OVERLAY LAYER -->
-  <FrameLayout
-    android:id="@+id/keyboard_overlay"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-
   <!-- MAIN KEYBOARD UI -->
   <LinearLayout
     android:id="@+id/keyboard_main"
@@ -49,9 +43,10 @@
           android:text="⇧"
           android:layout_marginEnd="6dp"/>
         <Button
+          android:id="@+id/btn_settings"
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
-          android:text="⌫"
+          android:text="⚙"
           android:layout_marginEnd="6dp"/>
       </LinearLayout>
 
@@ -62,9 +57,9 @@
     <!-- Suggestion Row -->
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/suggestion_row"
-      android:background="#22334400"
+      android:background="#22222299"
       android:layout_width="match_parent"
-      android:layout_height="40dp"
+      android:layout_height="30dp"
       android:overScrollMode="never"
       android:paddingHorizontal="8dp" />
     
@@ -75,5 +70,20 @@
       android:layout_height="wrap_content" />
       
   </LinearLayout>
+  
+  <!-- OVERLAY LAYER -->
+  <!--<FrameLayout
+    android:id="@+id/keyboard_overlay"
+    android:visibility="gone"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />-->
+  <FrameLayout
+    android:id="@+id/keyboard_overlay"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#55FF0000"/>
   
 </FrameLayout>
