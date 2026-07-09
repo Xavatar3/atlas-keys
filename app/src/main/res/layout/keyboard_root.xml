@@ -16,11 +16,16 @@
     android:padding="1dp">
     
     <!-- Control Row -->
-    <HorizontalScrollView
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:orientation="horizontal"
+      android:gravity="center_vertical">
+    <!--<HorizontalScrollView
       android:layout_width="match_parent"
       android:layout_height="40dp"
       android:scrollbars="none"
-      android:paddingHorizontal="8dp">
+      android:paddingHorizontal="8dp">-->
       
       <LinearLayout
         android:id="@+id/control_row"
@@ -49,10 +54,8 @@
           android:text="⚙"
           android:layout_marginEnd="6dp"/>
       </LinearLayout>
-
-
-
-    </HorizontalScrollView>
+      <!--</HorizontalScrollView> -->
+      </LinearLayout>
     
     <!-- Suggestion Row -->
     <androidx.recyclerview.widget.RecyclerView
@@ -72,18 +75,10 @@
   </LinearLayout>
   
   <!-- OVERLAY LAYER -->
-  <!--<FrameLayout
-    android:id="@+id/keyboard_overlay"
-    android:visibility="gone"
-    android:clickable="true"
-    android:focusable="true"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />-->
   <FrameLayout
     android:id="@+id/keyboard_overlay"
     android:visibility="gone"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#55FF0000"/>
-  
+    android:layout_height="match_parent"/>
+    
 </FrameLayout>

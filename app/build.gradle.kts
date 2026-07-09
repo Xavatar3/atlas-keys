@@ -1,16 +1,19 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
   id("com.android.application")
   id("org.jetbrains.kotlin.android")
+  id("org.jetbrains.kotlin.plugin.compose")
   id("io.xavatarlabs.versioning")
 }
 
 android {
   namespace = "io.xavatarlabs.atlaskeys"
-  compileSdk = 35 // Android 14 - UpsideDown Cake
+  compileSdk = 36 // Android 14 - UpsideDown Cake(update later)
   
   defaultConfig {
     applicationId = "io.xavatarlabs.atlaskeys"
-    minSdk = 23 //Android 6.0 - Marshmellow
+    minSdk = 24 //Android 6.0 - Marshmellow(update later)
     targetSdk = 35 // API 35 (Android 15)
     versionCode = 1 // Set by versioning plugin
     //versionName = "0.0.0" // Set by versioning plugin
@@ -37,17 +40,23 @@ android {
     }
   
   compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+  }
   
-  composeOptions {
+  kotlin {
+    compilerOptions {
+      jvmTarget = JvmTarget.JVM_17
+    }
+  }
+  
+  /*composeOptions {
     kotlinCompilerExtensionVersion = "1.5.15"
   }
   
   kotlinOptions {
         jvmTarget = "17"
-    }
+    }*/
 }
 
 versioning {
@@ -71,10 +80,15 @@ dependencies {
     // Core Compose UI
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.activity:activity-compose:1.9.2")
+    implementation("androidx.activity:activity-compose:1.12.4")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.savedstate:savedstate:1.4.0")
+    implementation("androidx.savedstate:savedstate-ktx:1.4.0")
     implementation("androidx.compose.material:material")
+    
+    implementation("androidx.lifecycle:lifecycle-runtime:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.10.0")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
