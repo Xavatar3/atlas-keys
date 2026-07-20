@@ -1,186 +1,130 @@
 package io.xavatarlabs.atlaskeys
 
-import android.inputmethodservice.InputMethodService
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.Button
+import android.view.inputmethod.EditorInfo
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.lifecycle.setViewTreeLifecycleOwner
-import androidx.lifecycle.setViewTreeViewModelStoreOwner
-import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-
-import io.xavatarlabs.atlaskeys.engine.InputHandler
 import io.xavatarlabs.atlaskeys.engine.State
+import io.xavatarlabs.atlaskeys.engine.InputHandler
 import io.xavatarlabs.atlaskeys.layout.qwertyMatrix
 import io.xavatarlabs.atlaskeys.structures.KeyView
 import io.xavatarlabs.atlaskeys.structures.KeyboardRenderer
 import io.xavatarlabs.atlaskeys.ui.Settings
 
-class IMEService : InputMethodService() {
+import android.inputmethodservice.InputMethodService
+import android.view.View
+import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
+import androidx.savedstate.SavedStateRegistry
+import androidx.savedstate.SavedStateRegistryController
+import androidx.savedstate.SavedStateRegistryOwner
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 
+class IMEService: InputMethodService(), LifecycleOwner, ViewModelStoreOwner, SavedStateRegistryOwner{
   private lateinit var root: FrameLayout
   private lateinit var body: FrameLayout
   private lateinit var overlay: FrameLayout
-  private lateinit var settingsBtn: Button
-
+  private var showingSettings = false
+  private val state = State()
   private lateinit var renderer: KeyboardRenderer
   private lateinit var inputHandler: InputHandler
-
-  private lateinit var imeLifecycleOwner: ImeLifecycleOwner
-
-  private val state = State()
-
-  private var showingSettings = false
+  private lateinit var settingsBtn: Button
+  private val lifecycleRegistry = LifecycleRegistry(this)
+  private val internalViewModelStore = ViewModelStore()
+  private val savedStateController = SavedStateRegistryController.create(this)
+  override val lifecycle: Lifecycle
+  get() = lifecycleRegistry
+  override val viewModelStore: ViewModelStore
+  get() = internalViewModelStore
+  override val savedStateRegistry: SavedStateRegistry
+  get() = savedStateController.savedStateRegistry
 
   override fun onCreate() {
     super.onCreate()
-
-    imeLifecycleOwner = ImeLifecycleOwner()
-    imeLifecycleOwner.onCreate()
+    savedStateController.performRestore(null)
+    lifecycleRegistry.currentState = Lifecycle.State.CREATED
   }
 
-  override fun onCreateInputView(): View {
-
-    imeLifecycleOwner.onStart()
-    imeLifecycleOwner.onResume()
-
-    val view = layoutInflater.inflate(
-      R.layout.keyboard_root,
-      null
-    )
-
-    root = view.findViewById(R.id.keyboard_root)
-    body = view.findViewById(R.id.keyboard_body)
-    overlay = view.findViewById(R.id.keyboard_overlay)
-    settingsBtn = view.findViewById(R.id.btn_settings)
-
-    root.setViewTreeLifecycleOwner(imeLifecycleOwner)
-    root.setViewTreeViewModelStoreOwner(imeLifecycleOwner)
-    root.setViewTreeSavedStateRegistryOwner(imeLifecycleOwner)
-
-    settingsBtn.setOnClickListener {
-      showSettingsPanel()
+  override fun onCreateInputView(): View{
+    window?.window?.decorView?.let{
+      it.setViewTreeLifecycleOwner(this)
+      it.setViewTreeViewModelStoreOwner(this)
+      it.setViewTreeSavedStateRegistryOwner(this)
     }
 
-    renderer = KeyboardRenderer(state) { key ->
-      KeyView(this).apply {
+    val view = layoutInflater.inflate(R.layout.keyboard_root, null)  
+  
+    settingsBtn = view.findViewById(R.id.btn_settings)  
+    root = view.findViewById(R.id.keyboard_root)  
+    body = view.findViewById(R.id.keyboard_body)  
+    overlay = view.findViewById(R.id.keyboard_overlay)  
+    settingsBtn.setOnClickListener { showSettingsPanel() }  
+  
+    renderer = KeyboardRenderer(state) { key -> KeyView(this).apply {  
+        tag = key  
+        bind(key, state)  
+        setOnClickListener { inputHandler.handleKeyPress(key) }  
+      }  
+    }  
+    
+    inputHandler = InputHandler({currentInputConnection },state  ){ renderer.refresh(root) }  
+  
+renderer.render(  
+  body,  
+  qwertyMatrix  
+)  
+return root  
 
-        tag = key
+}
 
-        bind(key, state)
+private fun showSettingsPanel() {
+val composeView = androidx.compose.ui.platform.ComposeView(this)
 
-        setOnClickListener {
-          inputHandler.handleKeyPress(key)
-        }
-      }
-    }
+composeView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT)  
+  
+composeView.setContent {  
+  MaterialTheme {  
+    Settings(  
+      onClose = {  
+        showKeyboardPanel()  
+      }  
+    )  
+  }  
+}  
+  
+overlay.removeAllViews()  
+overlay.addView(composeView)  
+overlay.visibility = View.VISIBLE  
+overlay.bringToFront()  
+showingSettings = true
 
-    inputHandler = InputHandler(
-      { currentInputConnection },
-      state
-    ) {
-      renderer.refresh(root)
-    }
+}
 
-    renderer.render(
-      body,
-      qwertyMatrix
-    )
+private fun showKeyboardPanel() {
+showingSettings = false
+overlay.visibility = View.GONE
+overlay.removeAllViews()
+renderer.render(body, qwertyMatrix)
+}
 
-    return root
-  }
+override fun onDestroy() {
+lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+internalViewModelStore.clear()
+super.onDestroy()
+}
 
-  private fun showSettingsPanel() {
-
-    val composeView = ComposeView(this)
-
-    composeView.setViewTreeLifecycleOwner(
-      imeLifecycleOwner
-    )
-
-    composeView.setViewTreeViewModelStoreOwner(
-      imeLifecycleOwner
-    )
-
-    composeView.setViewTreeSavedStateRegistryOwner(
-      imeLifecycleOwner
-    )
-
-    composeView.setViewCompositionStrategy(
-      ViewCompositionStrategy.DisposeOnLifecycleDestroyed(
-        imeLifecycleOwner.lifecycle
-      )
-    )
-
-    composeView.layoutParams =
-      FrameLayout.LayoutParams(
-        FrameLayout.LayoutParams.MATCH_PARENT,
-        FrameLayout.LayoutParams.MATCH_PARENT
-      )
-
-    composeView.setContent {
-
-      MaterialTheme {
-
-        Settings(
-          onClose = {
-            showKeyboardPanel()
-          }
-        )
-
-      }
-    }
-
-    overlay.removeAllViews()
-
-    overlay.addView(composeView)
-
-    overlay.visibility = View.VISIBLE
-
-    overlay.bringToFront()
-
-    showingSettings = true
-  }
-
-  private fun showKeyboardPanel() {
-
-    showingSettings = false
-
-    overlay.visibility = View.GONE
-
-    overlay.removeAllViews()
-
-    renderer.render(
-      body,
-      qwertyMatrix
-    )
-  }
-
-  override fun onDestroy() {
-
-    imeLifecycleOwner.onDestroy()
-
-    super.onDestroy()
-  }
-
-  override fun onStartInputView(
-    info: EditorInfo?,
-    restarting: Boolean
-  ) {
-
-    super.onStartInputView(
-      info,
-      restarting
-    )
-
-    state.shift = false
-
-    if (!showingSettings) {
-      renderer.refresh(root)
-    }
-  }
+override fun onStartInputView(info: EditorInfo?, restarting: Boolean){
+super.onStartInputView(info, restarting)
+state.shift = false
+if (!showingSettings) {renderer.refresh(root)}
+}
 }
