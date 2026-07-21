@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/keyboard_root"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:background="@color/keyboard_background">
+
+  <!-- MAIN KEYBOARD UI -->
+  <LinearLayout
+    android:id="@+id/keyboard_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="1dp">
+    
+    <!-- Control Row -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:orientation="horizontal"
+      android:gravity="center_vertical">
+    <!--<HorizontalScrollView
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:scrollbars="none"
+      android:paddingHorizontal="8dp">-->
+      
+      <LinearLayout
+        android:id="@+id/control_row"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <Button
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:text="🌐"
+          android:layout_marginEnd="6dp"/>
+        <Button
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:text="🙂"/>
+        <Button
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:text="⇧"
+          android:layout_marginEnd="6dp"/>
+        <Button
+          android:id="@+id/btn_settings"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:text="⚙"
+          android:layout_marginEnd="6dp"/>
+      </LinearLayout>
+      <!--</HorizontalScrollView> -->
+      </LinearLayout>
+    
+    <!-- Suggestion Row -->
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/suggestion_row"
+      android:background="#22222299"
+      android:layout_width="match_parent"
+      android:layout_height="30dp"
+      android:overScrollMode="never"
+      android:paddingHorizontal="8dp" />
+    
+    <!-- Keyboard Body -->
+    <FrameLayout
+      android:id="@+id/keyboard_body"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+      
+  </LinearLayout>
+  
+  <!-- OVERLAY LAYER -->
+  <FrameLayout
+    android:id="@+id/keyboard_overlay"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+    
+</FrameLayout>
