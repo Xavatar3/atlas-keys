@@ -4,29 +4,28 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/keyboard_root"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
+  android:layout_height="wrap_content"
   android:background="@color/keyboard_background">
-
-  <!-- OVERLAY LAYER -->
-  <FrameLayout
-    android:id="@+id/keyboard_overlay"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
 
   <!-- MAIN KEYBOARD UI -->
   <LinearLayout
     android:id="@+id/keyboard_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="1dp">
     
     <!-- Control Row -->
-    <HorizontalScrollView
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:orientation="horizontal"
+      android:gravity="center_vertical">
+    <!--<HorizontalScrollView
       android:layout_width="match_parent"
       android:layout_height="40dp"
       android:scrollbars="none"
-      android:paddingHorizontal="8dp">
+      android:paddingHorizontal="8dp">-->
       
       <LinearLayout
         android:id="@+id/control_row"
@@ -49,22 +48,21 @@
           android:text="⇧"
           android:layout_marginEnd="6dp"/>
         <Button
+          android:id="@+id/btn_settings"
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
-          android:text="⌫"
+          android:text="⚙"
           android:layout_marginEnd="6dp"/>
       </LinearLayout>
-
-
-
-    </HorizontalScrollView>
+      <!--</HorizontalScrollView> -->
+      </LinearLayout>
     
     <!-- Suggestion Row -->
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/suggestion_row"
-      android:background="#22334400"
+      android:background="#22222299"
       android:layout_width="match_parent"
-      android:layout_height="40dp"
+      android:layout_height="30dp"
       android:overScrollMode="never"
       android:paddingHorizontal="8dp" />
     
@@ -76,4 +74,11 @@
       
   </LinearLayout>
   
+  <!-- OVERLAY LAYER -->
+  <FrameLayout
+    android:id="@+id/keyboard_overlay"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+    
 </FrameLayout>
