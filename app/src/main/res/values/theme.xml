@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="Theme.KeyboardApp" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Primary brand colors -->
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorOnPrimary">@color/on_primary</item>
+
+    <!-- Secondary colors -->
+    <item name="colorSecondary">@color/secondary</item>
+    <item name="colorOnSecondary">@color/on_secondary</item>
+
+    <!-- Surface and background -->
+    <item name="android:windowBackground">@color/background</item>
+    <item name="colorSurface">@color/surface</item>
+    <item name="colorOnSurface">@color/on_surface</item>
+
+    <!-- Typography -->
+    <item name="android:textColorPrimary">@color/on_surface</item>
+    <item name="android:textColorSecondary">@color/on_surface_variant</item>
+
+    <!-- Keyboard-specific theme attributes -->
+    <item name="keyboardBackground">?attr/colorSurface</item>
+    <item name="keyboardKeyColor">@color/keyboard_key</item>
+    <item name="keyboardKeyTextColor">@color/keyboard_key_text</item>
+  </style>
+</resources>
