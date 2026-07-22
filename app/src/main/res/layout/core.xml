@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="32dp"
-    android:background="@color/background">
+    android:padding="32dp">
 
     <!-- App title -->
     <TextView
@@ -15,7 +14,6 @@
         android:layout_height="wrap_content"
         android:text="AtlasKeys 🗝️"
         android:textSize="24sp"
-        android:textColor="@color/on_surface"
         android:gravity="center" />
 
     <!-- Spacer -->
@@ -30,7 +28,6 @@
         android:layout_height="wrap_content"
         android:text="Version"
         android:textSize="18sp"
-        android:textColor="@color/on_surface"
         android:gravity="center"
         android:paddingBottom="12dp" />
 
@@ -41,7 +38,6 @@
         android:layout_height="wrap_content"
         android:text="Commits"
         android:textSize="16sp"
-        android:textColor="@color/on_surface_variant"
         android:gravity="center"
         android:paddingBottom="8dp" />
 
@@ -52,7 +48,6 @@
         android:layout_height="wrap_content"
         android:text="Build Date"
         android:textSize="16sp"
-        android:textColor="@color/on_surface_variant"
         android:gravity="center"
         android:paddingBottom="8dp" />
 
