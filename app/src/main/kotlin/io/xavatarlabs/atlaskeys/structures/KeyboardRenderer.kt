@@ -52,6 +52,7 @@ class KeyboardRenderer(
       }
     }
   }
+  
   fun refresh(target: FrameLayout) {
     val vertical = target.getChildAt(0) as? LinearLayout ?: return
 
