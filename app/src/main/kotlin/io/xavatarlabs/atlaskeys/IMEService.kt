@@ -22,6 +22,7 @@ import io.xavatarlabs.atlaskeys.ui.Settings
 import io.xavatarlabs.atlaskeys.ui.Keyboard
 import io.xavatarlabs.atlaskeys.engine.State
 import io.xavatarlabs.atlaskeys.engine.InputHandler
+import io.xavatarlabs.atlaskeys.layout.SymbolsLayout
 import io.xavatarlabs.atlaskeys.layout.QwertyLayout
 import io.xavatarlabs.atlaskeys.core.BaseComposeIMEService
 //import io.xavatarlabs.atlaskeys.structures.KeyView
@@ -72,16 +73,53 @@ class IMEService: BaseComposeIMEService(){
       }  
     }*/  
     
+    /*
+    inputHandler = InputHandler(
+      { currentInputConnection }, state
+    ){ body.refresh() }
+    */
+    /*inputHandler = InputHandler(
+    { currentInputConnection }, state, { body.refresh() },
+    {
+        if (state.symbols) {
+            body.render(SymbolsLayout(this, state) {
+                inputHandler.handleKeyPress(it)
+            })
+        } else {
+            body.render(QwertyLayout(this, state) {
+                inputHandler.handleKeyPress(it)
+            })
+        }
+    }
+  )*/
+    
     inputHandler = InputHandler(
       { currentInputConnection },
-      state
-    ){ body.refresh() }  
+      state, { body.refresh() },
+      { renderKeyboard() }
+    )
     
     body.render(QwertyLayout(this, state){ inputHandler.handleKeyPress(it) })
     //renderer.render(body, qwertyMatrix)  
     return root  
   }
-
+  
+  private fun renderKeyboard() {
+  body.render(
+    if (state.symbols)
+      SymbolsLayout(this, state) {
+        inputHandler.handleKeyPress(it)
+      }
+    else
+      QwertyLayout(this, state) { key ->
+        inputHandler.handleKeyPress(key)
+      }
+      /*QwertyLayout(this, state) {
+        inputHandler.handleKeyPress(it)
+      }*/
+  )
+  }
+  
   private fun showPanel(panel: Panel) {
     currentPanel = panel
     overlay.clear()
