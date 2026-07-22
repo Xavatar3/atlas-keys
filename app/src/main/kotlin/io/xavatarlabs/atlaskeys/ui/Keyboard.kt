@@ -55,7 +55,7 @@ class Keyboard @JvmOverloads constructor(
   }
   
   fun setLayout(source: List<List<String>>){
-    layout.setLayout(source)
+    //layout.setLayout(source)
   }
   
   fun setWidth(ratio: Float) {

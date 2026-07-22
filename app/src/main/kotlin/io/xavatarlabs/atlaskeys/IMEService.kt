@@ -20,12 +20,13 @@ import io.xavatarlabs.atlaskeys.ui.Overlay
 import io.xavatarlabs.atlaskeys.ui.LayoutX
 import io.xavatarlabs.atlaskeys.ui.Settings
 import io.xavatarlabs.atlaskeys.ui.Keyboard
-import io.xavatarlabs.atlaskeys.core.BaseComposeIMEService
-import io.xavatarlabs.atlaskeys.layout.qwertyMatrix
 import io.xavatarlabs.atlaskeys.engine.State
 import io.xavatarlabs.atlaskeys.engine.InputHandler
-import io.xavatarlabs.atlaskeys.structures.KeyView
-import io.xavatarlabs.atlaskeys.structures.KeyboardRenderer
+import io.xavatarlabs.atlaskeys.layout.QwertyLayout
+import io.xavatarlabs.atlaskeys.core.BaseComposeIMEService
+//import io.xavatarlabs.atlaskeys.structures.KeyView
+//import io.xavatarlabs.atlaskeys.layout.qwertyMatrix
+//import io.xavatarlabs.atlaskeys.structures.KeyboardRenderer
 
 class IMEService: BaseComposeIMEService(){
   private val state = State()
@@ -34,8 +35,8 @@ class IMEService: BaseComposeIMEService(){
   private lateinit var root: FrameLayout
   private lateinit var body: LayoutX
   private lateinit var keyboard: Keyboard
-  private lateinit var renderer: KeyboardRenderer
   private lateinit var inputHandler: InputHandler
+  //private lateinit var renderer: KeyboardRenderer
   //private lateinit var body: FrameLayout
   //private lateinit var overlay: FrameLayout
   //private lateinit var settingsBtn: Button
@@ -55,6 +56,7 @@ class IMEService: BaseComposeIMEService(){
     keyboard = view.findViewById(R.id.keyboard)
     overlay = keyboard.overlay
     body = keyboard.layout
+    body.state = state
     //overlay = view.findViewById(R.id.overlay)  
     //body = view.findViewById(R.id.keyboard_body)  
     //settingsBtn = view.findViewById(R.id.btn_settings)  
@@ -63,19 +65,20 @@ class IMEService: BaseComposeIMEService(){
       showPanel(Panel.SETTINGS)
     }
   
-    renderer = KeyboardRenderer(state) { key -> KeyView(this).apply {  
+    /*renderer = KeyboardRenderer(state) { key -> KeyView(this).apply {  
         tag = key  
         bind(key, state)  
         setOnClickListener { inputHandler.handleKeyPress(key) }  
       }  
-    }  
+    }*/  
     
     inputHandler = InputHandler(
       { currentInputConnection },
       state
-    ){ renderer.refresh(root) }  
+    ){ body.refresh() }  
     
-    renderer.render(body, qwertyMatrix)  
+    body.render(QwertyLayout(this, state){ inputHandler.handleKeyPress(it) })
+    //renderer.render(body, qwertyMatrix)  
     return root  
   }
 
@@ -86,7 +89,7 @@ class IMEService: BaseComposeIMEService(){
       Panel.KEYBOARD -> {
         body.visibility = View.VISIBLE
         overlay.hide()
-        renderer.refresh(root)
+        body.refresh()
       }
       
       Panel.SETTINGS -> {
@@ -111,6 +114,6 @@ class IMEService: BaseComposeIMEService(){
   override fun onStartInputView(info: EditorInfo?, restarting: Boolean){
     super.onStartInputView(info, restarting)
     state.shift = false
-    if (currentPanel == Panel.KEYBOARD) {renderer.refresh(root)}
+    if (currentPanel == Panel.KEYBOARD) {body.refresh()}
   }
 }
