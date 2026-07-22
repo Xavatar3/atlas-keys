@@ -37,7 +37,7 @@ class KeyboardRenderer(
   target.addView(vertical)
 }
 
-  fun refresh(root: FrameLayout) {
+  fun xrefresh(root: FrameLayout) {
     for (i in 0 until root.childCount) {
       val row = root.getChildAt(i)
       
@@ -52,4 +52,20 @@ class KeyboardRenderer(
       }
     }
   }
+  fun refresh(target: FrameLayout) {
+    val vertical = target.getChildAt(0) as? LinearLayout ?: return
+
+    for (i in 0 until vertical.childCount) {
+        val row = vertical.getChildAt(i) as? LinearLayout ?: continue
+
+        for (j in 0 until row.childCount) {
+            val view = row.getChildAt(j)
+
+            if (view is KeyView) {
+                val key = view.tag as? Key ?: continue
+                view.bind(key, state)
+            }
+        }
+    }
+}
 }
