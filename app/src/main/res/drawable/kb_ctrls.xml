@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-  <solid android:color="@color/kb_ctrls"/>
+  <solid android:color="@color/kb_ctrls_bg"/>
   <stroke android:width="@dimen/kb_ctrls_bw" android:color="@color/kb_ctrls_bd"/>
   <corners android:radius="@dimen/kb_ctrls_cr"/>
   <padding

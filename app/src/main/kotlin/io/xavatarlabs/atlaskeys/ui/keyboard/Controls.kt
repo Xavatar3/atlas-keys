@@ -6,7 +6,6 @@ import android.widget.Button
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 
@@ -30,9 +29,15 @@ class Controls @JvmOverloads constructor(
     background = ContextCompat.getDrawable(context,R.drawable.kb_ctrls)
     elevation = resources.getDimension(R.dimen.kb_ctrls_el)
     //layoutParams = LayoutParams(WRAP_CONTENT, MATCH_PARENT)
+    setPadding(
+      resources.getDimensionPixelSize(R.dimen.kb_ctrls_pad),
+      resources.getDimensionPixelSize(R.dimen.kb_ctrls_pad),
+      resources.getDimensionPixelSize(R.dimen.kb_ctrls_pad),
+      resources.getDimensionPixelSize(R.dimen.kb_ctrls_pad)
+    )
     
     // Children
-    setControls(listOf("🌐", "🙂", "⇧", "⚙"))
+    setControls(listOf("🌐", "😒", "⇧", "⚙")) // later maker emoji button show random emojis of a list
   }
   
   fun setOnSettingsClick(listener: () -> Unit) {
@@ -44,8 +49,13 @@ class Controls @JvmOverloads constructor(
       val button = Button(context).apply {
         text = icon
         textSize = 18f
-        background = null
-        setTextColor(ContextCompat.getColor(context, R.color.key_txt))
+        background = ContextCompat.getDrawable(context, R.drawable.kb_ctrls_btn_bg)
+        setTextColor(ContextCompat.getColor(context, R.color.kb_ctrls_icon))
+        textSize =
+        resources.getDimension(R.dimen.kb_ctrls_icon_size) / resources.displayMetrics.scaledDensity
+        minimumWidth = 0
+        minimumHeight = 0
+        
         if (icon == "⚙") {
           setOnClickListener {
             onSettingsClick?.invoke()
