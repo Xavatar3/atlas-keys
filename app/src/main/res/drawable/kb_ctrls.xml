@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+  <solid android:color="@color/kb_ctrls"/>
+  <stroke android:width="@dimen/kb_ctrls_bw" android:color="@color/kb_ctrls_bd"/>
+  <corners android:radius="@dimen/kb_ctrls_cr"/>
+  <padding
+    android:left="@dimen/kb_ctrls_pad"
+    android:top="@dimen/kb_ctrls_pad"
+    android:right="@dimen/kb_ctrls_pad"
+    android:bottom="@dimen/kb_ctrls_pad"/>
+</shape>

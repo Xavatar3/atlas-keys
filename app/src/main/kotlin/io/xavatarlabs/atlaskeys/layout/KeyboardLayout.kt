@@ -1,8 +1,11 @@
 package io.xavatarlabs.atlaskeys.layout
 
+// Android
 import android.content.Context
 import android.widget.LinearLayout
 
+// Atlaskeys
+import io.xavatarlabs.atlaskeys.R
 import io.xavatarlabs.atlaskeys.engine.State
 import io.xavatarlabs.atlaskeys.structures.Key
 import io.xavatarlabs.atlaskeys.structures.KeyRow
@@ -45,10 +48,13 @@ abstract class KeyboardLayout(
                 bind(key, state)
 
                 layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    dp(row.height),
-                    key.width
-                )
+                  0,
+                  dp(row.height),
+                  key.width
+                ).apply {
+                  val margin = context.resources.getDimensionPixelSize(R.dimen.key_mgn)
+                  setMargins(margin, margin, margin, margin)
+                }
 
                 setOnClickListener {
                     onKeyClick(key)

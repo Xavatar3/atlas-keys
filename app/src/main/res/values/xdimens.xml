@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- ===================== -->
+  <!-- 🧱 GLOBAL SPACING -->
+  <!-- ===================== -->
+
+  <dimen name="spacing_xs">2dp</dimen>
+  <dimen name="spacing_sm">4dp</dimen>
+  <dimen name="spacing_md">8dp</dimen>
+  <dimen name="spacing_lg">12dp</dimen>
+  <dimen name="spacing_xl">16dp</dimen>
+
+  <!-- ===================== -->
+  <!-- ⌨️ KEYBOARD LAYOUT -->
+  <!-- ===================== -->
+
+  <dimen name="keyboard_height">240dp</dimen>
+  <dimen name="keyboard_padding">4dp</dimen>
+
+  <dimen name="key_height">44dp</dimen>
+  <dimen name="key_text_size">16sp</dimen>
+
+  <dimen name="key_corner_radius">6dp</dimen>
+
+  <!-- key spacing inside rows -->
+  <dimen name="key_margin">2dp</dimen>
+
+  <!-- weighted keys baseline sizing -->
+  <dimen name="key_min_width">32dp</dimen>
+
+  <!-- ===================== -->
+  <!-- 🧭 ROWS -->
+  <!-- ===================== -->
+
+  <dimen name="row_height">48dp</dimen>
+  <dimen name="suggestion_row_height">44dp</dimen>
+  <dimen name="control_row_height">44dp</dimen>
+
+  <!-- ===================== -->
+  <!-- 🎯 OVERLAY LAYER -->
+  <!-- ===================== -->
+
+  <dimen name="overlay_elevation">8dp</dimen>
+  <dimen name="popup_key_height">60dp</dimen>
+  <dimen name="popup_key_width">60dp</dimen>
+
+  <!-- ===================== -->
+  <!-- 🧠 UI ELEMENTS -->
+  <!-- ===================== -->
+
+  <dimen name="icon_size_sm">18dp</dimen>
+  <dimen name="icon_size_md">24dp</dimen>
+  <dimen name="icon_size_lg">32dp</dimen>
+
+</resources>

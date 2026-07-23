@@ -35,15 +35,15 @@ class QwertyLayout(
           Key("⇧", type = Types.SHIFT, width = 1.5f),
           Key("Z"), Key("X"), Key("C"), Key("V"),
           Key("B"), Key("N"), Key("M"),
-          Key("⌫", type = Types.DELETE, width = 1.5f)
+          Key("⌫", type = Types.DELETE, width = 1.4f)
         )
       ),
       
       KeyRow(56,
         listOf(
-          Key("0-9", width = 1.2f),
+          Key("0-9", width = 1.3f),
           Key("⎵", type = Types.SPACE, width = 5f),
-          Key("⏎", type = Types.ENTER, width = 1.8f)
+          Key("⏎", type = Types.ENTER, width = 1.6f)
         )
       )
     )
