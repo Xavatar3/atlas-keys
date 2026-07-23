@@ -13,6 +13,7 @@
   <dimen name="key_bw">1dp</dimen>
   <dimen name="key_el">4dp</dimen>
   <dimen name="key_fs">21sp</dimen>
+  <dimen name="key_fs_sp">21sp</dimen>
   <dimen name="key_pad">4dp</dimen>
   <dimen name="key_mgn">3dp</dimen>
   

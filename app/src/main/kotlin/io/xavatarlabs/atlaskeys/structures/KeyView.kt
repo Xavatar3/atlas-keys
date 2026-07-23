@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.content.Context
 import android.widget.TextView
 import android.view.MotionEvent
+import android.graphics.Typeface
 import android.widget.FrameLayout
 import android.os.VibrationEffect
 import android.media.AudioManager
@@ -53,21 +54,7 @@ class KeyView(context: Context) : FrameLayout(context) {
     setOnTouchListener { _, event ->
       when (event.action) {
         MotionEvent.ACTION_DOWN -> {
-          //val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-          //val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-          
-          alpha = 0.3f
-          //performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-          //performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-          //audio.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
-          /*if (android.os.Build.VERSION.SDK_INT >= 26) {
-            vibrator.vibrate(
-              VibrationEffect.createOneShot(
-                10,
-                VibrationEffect.DEFAULT_AMPLITUDE
-              )
-            )
-          }*/
+          alpha = 0.4f
         }
 
         MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> { alpha = 1f }
@@ -109,6 +96,24 @@ class KeyView(context: Context) : FrameLayout(context) {
   
   fun bind(key: Key, state: State) {
     updateStyle(key)
+    
+    val isSpecial = when (key.type) {
+      Types.ENTER, Types.ABC,
+      Types.SHIFT, Types.DELETE,
+      Types.SPACE, Types.SYMBOLS,
+      Types.ACTION -> true
+      else -> false
+    }
+    
+    labelView.textSize = resources.getDimension(
+      if (isSpecial)
+         R.dimen.key_fs_sp
+      else
+        R.dimen.key_fs
+    ) / resources.displayMetrics.scaledDensity
+    
+    if(isSpecial) labelView.typeface = Typeface.DEFAULT_BOLD
+    
     val text = when (key.type) {
       Types.CHAR ->
         if (state.shift) key.label.uppercase()
