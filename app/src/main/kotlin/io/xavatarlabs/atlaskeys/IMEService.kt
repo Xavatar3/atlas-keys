@@ -21,6 +21,7 @@ import io.xavatarlabs.atlaskeys.ui.LayoutX
 import io.xavatarlabs.atlaskeys.ui.Settings
 import io.xavatarlabs.atlaskeys.ui.Keyboard
 import io.xavatarlabs.atlaskeys.engine.State
+import io.xavatarlabs.atlaskeys.engine.Feedback
 import io.xavatarlabs.atlaskeys.engine.InputHandler
 import io.xavatarlabs.atlaskeys.layout.SymbolsLayout
 import io.xavatarlabs.atlaskeys.layout.QwertyLayout
@@ -35,6 +36,7 @@ class IMEService: BaseComposeIMEService(){
   private lateinit var overlay: Overlay
   private lateinit var root: FrameLayout
   private lateinit var body: LayoutX
+  private lateinit var feedback: Feedback
   private lateinit var keyboard: Keyboard
   private lateinit var inputHandler: InputHandler
   //private lateinit var renderer: KeyboardRenderer
@@ -55,6 +57,7 @@ class IMEService: BaseComposeIMEService(){
     attachComposeOwners(root)
     
     keyboard = view.findViewById(R.id.keyboard)
+    feedback = Feedback(this)
     overlay = keyboard.overlay
     body = keyboard.layout
     body.state = state
@@ -96,7 +99,8 @@ class IMEService: BaseComposeIMEService(){
     inputHandler = InputHandler(
       { currentInputConnection },
       state, { body.refresh() },
-      { renderKeyboard() }
+      { renderKeyboard() },
+      { feedback.key(root) }
     )
     
     body.render(QwertyLayout(this, state){ inputHandler.handleKeyPress(it) })
@@ -153,5 +157,10 @@ class IMEService: BaseComposeIMEService(){
     super.onStartInputView(info, restarting)
     state.shift = false
     if (currentPanel == Panel.KEYBOARD) {body.refresh()}
+  }
+  
+  override fun onDestroy() {
+    feedback.release()
+    super.onDestroy()
   }
 }

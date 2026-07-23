@@ -9,12 +9,12 @@ class InputHandler(
   private val ic: () -> InputConnection?,
   private val state: State,
   private val refresh: () -> Unit,
-  private val switchSymbols: (Boolean) -> Unit
+  private val switchSymbols: (Boolean) -> Unit,
+  private val feedback: (Key) -> Unit
   //private val onLayoutChanged: () -> Unit
 ){
-
   fun handleKeyPress(key: Key) {
-
+  feedback(key)
   val conn = ic() ?: return
 
   when (key.type) {
