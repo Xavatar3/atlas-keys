@@ -4,6 +4,7 @@ package io.xavatarlabs.atlaskeys.engine
 import android.os.Build
 import android.view.View
 import android.os.Vibrator
+import kotlin.random.Random
 import android.content.Context
 import android.media.SoundPool
 import android.os.VibrationEffect
@@ -38,7 +39,15 @@ class Feedback(context: Context) {
     }
     
     // Audio
-    soundPool.play(keyClick, 1f, 1f, 0, 0, 1f)
+    soundPool.play(
+      keyClick, // Sound ID
+      0.1f, // Left Volume
+      0.1f, // Right Volumehcbic
+      0, // Priority
+      0, // Loop
+      Random.nextFloat() * 0.5f + 1f // Rate
+      //(0.95f..1.05f).random()
+    )
   }
 
   fun release() { soundPool.release() }
