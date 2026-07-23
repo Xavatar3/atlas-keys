@@ -2,7 +2,11 @@
 <resources>
   <!-- Keyboard -->
   <color name="kb_root">#161B22</color>
-  <color name="kb_ctrls">#252B33</color>
+  <color name="kb_ctrls_bg">#23232D</color>
+  <color name="kb_ctrls_bd">#505064</color>
+  <color name="kb_ctrls_icon">#FFFFFF</color>
+  <color name="kb_ctrls_ripple">#334DA3FF</color>
+  <color name="kb_ctrls_icon_pressed">#4DA3FF</color>
   
   <!-- Keys -->
   <color name="key_bg">#252B33</color>
@@ -20,5 +24,6 @@
   <color name="key_bg_sp">#303040</color>
   <color name="key_bd_sp">#6A6A85</color>
   <color name="key_bd_sp">#70708A</color>
+  <color name="kb_ctrls_bg">#252B33</color>
   -->
 </resources>

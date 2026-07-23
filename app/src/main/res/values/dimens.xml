@@ -5,6 +5,8 @@
   <dimen name="kb_ctrls_cr">14dp</dimen>
   <dimen name="kb_ctrls_bw">1dp</dimen>
   <dimen name="kb_ctrls_pad">6dp</dimen>
+  <dimen name="kb_ctrls_btn_size">42dp</dimen>
+  <dimen name="kb_ctrls_icon_size">20sp</dimen>
   
   <!-- Keys -->
   <dimen name="key_cr">11dp</dimen>
