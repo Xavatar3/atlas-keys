@@ -1,6 +1,7 @@
 package io.xavatarlabs.atlaskeys.layout
 
 import android.content.Context
+import kotlin.random.Random
 
 import io.xavatarlabs.atlaskeys.engine.State 
 import io.xavatarlabs.atlaskeys.structures.Key 
@@ -10,7 +11,11 @@ import io.xavatarlabs.atlaskeys.structures.KeyRow
 class QwertyLayout(
   context: Context, state: State, onKeyClick: (Key) -> Unit
 ): KeyboardLayout( context, state, onKeyClick){
-  
+  private val emojis = listOf(
+    "😒", "😩", "😭", "🫠", "🥶", "🔥", "🚀", "🐢", 
+    "🎲", "👻", "👀", "⚡", "🌙", "💯", "🎮", "📚"
+  )
+
   override fun buildRows(): List<KeyRow> {
     return listOf(
       KeyRow(56,
@@ -42,10 +47,15 @@ class QwertyLayout(
       KeyRow(56,
         listOf(
           Key("§", type = Types.SYMBOLS, width = 1.4f),
+          Key(randomEmoji(), type = Types.SYMBOLS, width = 1.2f),
           Key("⎵", type = Types.SPACE, width = 4.5f),
           Key("⏎", type = Types.ENTER, width = 1.6f)
         )
       )
     )
+  }
+  
+  private fun randomEmoji(): String {
+    return emojis[Random.nextInt(emojis.size)]
   }
 }
