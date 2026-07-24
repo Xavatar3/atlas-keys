@@ -40,6 +40,10 @@ abstract class BaseComposeIMEService: InputMethodService(), LifecycleOwner, View
     lifecycleRegistry.currentState = Lifecycle.State.CREATED
   }
   
+  /*override fun onCreateInputView(): View {
+    lifecycleRegistry.currentState = Lifecycle.State.STARTED
+  }*/
+  
   override fun onStartInputView(info: EditorInfo?, restarting: Boolean){
     super.onStartInputView(info, restarting)
     lifecycleRegistry.currentState = Lifecycle.State.RESUMED

@@ -26,11 +26,10 @@ class Feedback(context: Context) {
   private val vibrator = context.getSystemService(Vibrator::class.java)
   private val keyClick = soundPool.load(context, R.raw.key_mech, 1)
 
-  fun key(view: View) {
+  fun key() {
     // Haptic (framework)
-    //view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      vibrator.vibrate(
+      vibrator?.vibrate(
         VibrationEffect.createOneShot(25, VibrationEffect.DEFAULT_AMPLITUDE)
       )
     } else {
@@ -45,7 +44,7 @@ class Feedback(context: Context) {
       0.04f, // Right Volumehcbic
       0, // Priority
       0, // Loop
-      Random.nextFloat() * 0.5f + 1f // Rate
+      0.5f //Random.nextFloat() * 0.5f + 1f // Rate
       //(0.95f..1.05f).random()
     )
   }
