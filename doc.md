@@ -55,5 +55,68 @@ num = number
 pr  = pressed
 act = active
 
+
+
+io.xavatarlabs.atlaskeys
+
+├── core
+│   ├── BaseComposeIMEService.kt
+│   ├── DependencyContainer.kt
+│   └── LifecycleManager.kt
+│
+├── keyboard
+│   ├── Keyboard.kt
+│   ├── LayoutX.kt
+│   ├── KeyView.kt
+│   ├── Key.kt
+│   └── KeyRow.kt
+│
+├── input
+│   ├── InputHandler.kt
+│   ├── InputAction.kt
+│   ├── EditAction.kt
+│   └── ActionProcessor.kt
+│
+├── layout
+│   ├── KeyboardLayout.kt
+│   ├── QwertyLayout.kt
+│   ├── SymbolsLayout.kt
+│   ├── EmojiLayout.kt
+│   └── LayoutManager.kt
+│
+├── state
+│   ├── KeyboardState.kt
+│   └── UserPreferences.kt
+│
+├── ui
+│   ├── Controls.kt
+│   ├── Suggestions.kt
+│   ├── Overlay.kt
+│   ├── Panel.kt
+│   └── Settings.kt
+│
+├── features
+│   ├── statistics
+│   │   ├── TypingStats.kt
+│   │   └── SpeedTracker.kt
+│   │
+│   ├── games
+│   │   └── TypingMaster.kt
+│   │
+│   ├── achievements
+│   │   └── AchievementEngine.kt
+│   │
+│   └── themes
+│       └── ThemeManager.kt
+│
+├── data
+│   ├── database
+│   ├── preferences
+│   └── repository
+│
+└── service
+    └── IMEService.kt
+    
+    
 remember to watch age of tommorrow
 -->

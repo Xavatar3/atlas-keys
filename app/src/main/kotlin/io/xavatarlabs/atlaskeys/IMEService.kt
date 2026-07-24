@@ -2,7 +2,6 @@ package io.xavatarlabs.atlaskeys
 
 // Android
 import android.view.View
-//import android.widget.Button
 import android.widget.FrameLayout
 import android.view.inputmethod.EditorInfo
 
@@ -17,32 +16,26 @@ import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 // AtlasKeys
 import io.xavatarlabs.atlaskeys.ui.Panel
 import io.xavatarlabs.atlaskeys.ui.Overlay
-import io.xavatarlabs.atlaskeys.ui.LayoutX
 import io.xavatarlabs.atlaskeys.ui.Settings
 import io.xavatarlabs.atlaskeys.ui.Keyboard
-import io.xavatarlabs.atlaskeys.engine.State
+import io.xavatarlabs.atlaskeys.keyboard.Renderer
 import io.xavatarlabs.atlaskeys.engine.Feedback
 import io.xavatarlabs.atlaskeys.engine.InputHandler
-import io.xavatarlabs.atlaskeys.layout.SymbolsLayout
 import io.xavatarlabs.atlaskeys.layout.QwertyLayout
+import io.xavatarlabs.atlaskeys.layout.SymbolsLayout
 import io.xavatarlabs.atlaskeys.core.BaseComposeIMEService
-//import io.xavatarlabs.atlaskeys.structures.KeyView
-//import io.xavatarlabs.atlaskeys.layout.qwertyMatrix
-//import io.xavatarlabs.atlaskeys.structures.KeyboardRenderer
+
 
 class IMEService: BaseComposeIMEService(){
-  private val state = State()
+
   private var currentPanel = Panel.KEYBOARD
-  private lateinit var overlay: Overlay
+
   private lateinit var root: FrameLayout
-  private lateinit var body: LayoutX
-  private lateinit var feedback: Feedback
   private lateinit var keyboard: Keyboard
+  private lateinit var overlay: Overlay
+  private lateinit var feedback: Feedback
   private lateinit var inputHandler: InputHandler
-  //private lateinit var renderer: KeyboardRenderer
-  //private lateinit var body: FrameLayout
-  //private lateinit var overlay: FrameLayout
-  //private lateinit var settingsBtn: Button
+
 
   override fun onCreateInputView(): View{
     window?.window?.decorView?.let{
@@ -50,116 +43,121 @@ class IMEService: BaseComposeIMEService(){
       it.setViewTreeViewModelStoreOwner(this)
       it.setViewTreeSavedStateRegistryOwner(this)
     }
-    
-    val view = layoutInflater.inflate(R.layout.keyboard, null)
-    
-    root = view.findViewById(R.id.root)  
+
+
+    val view =
+      layoutInflater.inflate(
+        R.layout.keyboard,
+        null
+      )
+
+
+    root = view.findViewById(R.id.root)
     attachComposeOwners(root)
-    
     keyboard = view.findViewById(R.id.keyboard)
-    feedback = Feedback(this)
     overlay = keyboard.overlay
-    body = keyboard.layout
-    body.state = state
-    //overlay = view.findViewById(R.id.overlay)  
-    //body = view.findViewById(R.id.keyboard_body)  
-    //settingsBtn = view.findViewById(R.id.btn_settings)  
-    //settingsBtn.setOnClickListener {showPanel(Panel.SETTINGS)}
-    keyboard.controls.setOnSettingsClick{
+
+    feedback = Feedback(this)
+
+   inputHandler =
+    InputHandler(
+        { currentInputConnection },
+        keyboard.state,
+        {
+          keyboard.layout.refresh(keyboard.state)
+        },
+        { renderKeyboard() },
+        { feedback.key() }
+    )
+
+    keyboard.layout.setup(
+      Renderer(this),
+      keyboard.state,
+      inputHandler::handleKeyPress
+    )
+
+    keyboard.controls.setOnSettingsClick {
       showPanel(Panel.SETTINGS)
     }
-  
-    /*renderer = KeyboardRenderer(state) { key -> KeyView(this).apply {  
-        tag = key  
-        bind(key, state)  
-        setOnClickListener { inputHandler.handleKeyPress(key) }  
-      }  
-    }*/  
+
+    keyboard.layout.render(QwertyLayout)
     
-    /*
-    inputHandler = InputHandler(
-      { currentInputConnection }, state
-    ){ body.refresh() }
-    */
-    /*inputHandler = InputHandler(
-    { currentInputConnection }, state, { body.refresh() },
-    {
-        if (state.symbols) {
-            body.render(SymbolsLayout(this, state) {
-                inputHandler.handleKeyPress(it)
-            })
-        } else {
-            body.render(QwertyLayout(this, state) {
-                inputHandler.handleKeyPress(it)
-            })
-        }
-    }
-  )*/
-    
-    inputHandler = InputHandler(
-      { currentInputConnection },
-      state, { body.refresh() },
-      { renderKeyboard() },
-      { feedback.key(root) }
+    return root
+  }
+
+  private fun renderKeyboard(){
+    keyboard.layout.render(
+      if(keyboard.state.symbols)
+        SymbolsLayout
+      else
+        QwertyLayout
     )
-    
-    body.render(QwertyLayout(this, state){ inputHandler.handleKeyPress(it) })
-    //renderer.render(body, qwertyMatrix)  
-    return root  
   }
-  
-  private fun renderKeyboard() {
-  body.render(
-    if (state.symbols)
-      SymbolsLayout(this, state) {
-        inputHandler.handleKeyPress(it)
-      }
-    else
-      QwertyLayout(this, state) { key ->
-        inputHandler.handleKeyPress(key)
-      }
-      /*QwertyLayout(this, state) {
-        inputHandler.handleKeyPress(it)
-      }*/
-  )
-  }
-  
-  private fun showPanel(panel: Panel) {
+
+  private fun showPanel(
+    panel: Panel
+  ){
     currentPanel = panel
     overlay.clear()
-    when(panel) {
+
+    when(panel){
       Panel.KEYBOARD -> {
-        body.visibility = View.VISIBLE
+
+        keyboard.layout.visibility =
+          View.VISIBLE
+
         overlay.hide()
-        body.refresh()
+
+        keyboard.layout.refresh(
+          keyboard.state
+        )
+
       }
-      
+
       Panel.SETTINGS -> {
-        val composeView = createComposeView {
-          MaterialTheme {
-            Settings(onClose = {
-              showPanel(Panel.KEYBOARD)
-            })
+        val composeView =
+          createComposeView {
+            MaterialTheme {
+              Settings(
+                onClose = {
+                  showPanel(
+                    Panel.KEYBOARD
+                  )
+                }
+              )
+            }
           }
-        }
-        body.visibility = View.GONE
-        overlay.display(composeView)
+
+        keyboard.layout.visibility = View.GONE
+        overlay.display(
+          composeView
+        )
         overlay.bringToFront()
       }
       
-      Panel.SYMBOLS -> {}
-
-      Panel.EMOJIS -> {}
+      else -> {}
     }
   }
 
-  override fun onStartInputView(info: EditorInfo?, restarting: Boolean){
-    super.onStartInputView(info, restarting)
-    state.shift = false
-    if (currentPanel == Panel.KEYBOARD) {body.refresh()}
+  override fun onStartInputView(
+    info: EditorInfo?,
+    restarting: Boolean
+  ){
+    super.onStartInputView(
+      info,
+      restarting
+    )
+    
+    keyboard.state.shift = false
+
+    if(currentPanel == Panel.KEYBOARD){
+      keyboard.layout.refresh(
+        keyboard.state
+      )
+    }
   }
-  
-  override fun onDestroy() {
+
+  override fun onDestroy(){
     feedback.release()
     super.onDestroy()
   }

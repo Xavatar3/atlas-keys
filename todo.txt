@@ -4,3 +4,11 @@
 4. learn more about the resources folder in main not res
 5. Log errors and edgecases
 6. implement plugin auto-registration safely
+add key for double letters 
+allow swiping rows
+circular alternatibes
+easter eggs lile boardception
+stats
+leaderboard
+random emoji
+scripting
