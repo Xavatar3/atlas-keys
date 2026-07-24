@@ -31,18 +31,18 @@ class Feedback(context: Context) {
     //view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       vibrator.vibrate(
-        VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE)
+        VibrationEffect.createOneShot(25, VibrationEffect.DEFAULT_AMPLITUDE)
       )
     } else {
       @Suppress("DEPRECATION")
-      vibrator.vibrate(15)
+      vibrator.vibrate(25)
     }
     
     // Audio
     soundPool.play(
       keyClick, // Sound ID
-      0.1f, // Left Volume
-      0.1f, // Right Volumehcbic
+      0.04f, // Left Volume
+      0.04f, // Right Volumehcbic
       0, // Priority
       0, // Loop
       Random.nextFloat() * 0.5f + 1f // Rate

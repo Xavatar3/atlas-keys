@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout 
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT 
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT 
+import io.xavatarlabs.atlaskeys.R 
 
 class Keyboard @JvmOverloads constructor(
   context: Context,
@@ -41,7 +42,7 @@ class Keyboard @JvmOverloads constructor(
     )
 
     // Add Views
-    addView(controls, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+    addView(controls, LayoutParams(MATCH_PARENT, resources.getDimensionPixelSize(R.dimen.kb_ctrls_height)))
     addView(suggestions, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
     addView(stage, LayoutParams(MATCH_PARENT, 0, 1f))
   }

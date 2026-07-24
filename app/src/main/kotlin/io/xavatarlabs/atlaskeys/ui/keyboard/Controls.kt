@@ -4,6 +4,7 @@ package io.xavatarlabs.atlaskeys.ui
 import android.view.Gravity
 import android.widget.Button
 import android.content.Context
+import android.widget.TextView
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -37,7 +38,7 @@ class Controls @JvmOverloads constructor(
     )
     
     // Children
-    setControls(listOf("🌐", "😒", "⇧", "⚙")) // later maker emoji button show random emojis of a list
+    setControls(listOf("🌐", "📋", "↶", "↷", " ←",  "→", "⚙")) // later maker emoji button show random emojis of a list
   }
   
   fun setOnSettingsClick(listener: () -> Unit) {
@@ -46,13 +47,15 @@ class Controls @JvmOverloads constructor(
   fun setControls(controls: List<String>) {
     removeAllViews()
     controls.forEachIndexed { index, icon ->
-      val button = Button(context).apply {
+      //val button = Button(context).apply {
+      val button = TextView(context).apply {
         text = icon
         textSize = 18f
         background = ContextCompat.getDrawable(context, R.drawable.kb_ctrls_btn_bg)
         setTextColor(ContextCompat.getColor(context, R.color.kb_ctrls_icon))
-        textSize =
-        resources.getDimension(R.dimen.kb_ctrls_icon_size) / resources.displayMetrics.scaledDensity
+        textSize = resources.getDimension(R.dimen.kb_ctrls_icon_size) / resources.displayMetrics.scaledDensity
+        setPadding(0, 0, 0, 0)
+        gravity = Gravity.CENTER
         minimumWidth = 0
         minimumHeight = 0
         
@@ -67,8 +70,9 @@ class Controls @JvmOverloads constructor(
       addView(
         button,
         LinearLayout.LayoutParams(
-          WRAP_CONTENT,
-          MATCH_PARENT
+          0,
+          MATCH_PARENT,
+          1f
         ).apply {
           if (index != controls.lastIndex){
             marginEnd = dpToPx(6)
