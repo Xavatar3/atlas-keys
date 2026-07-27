@@ -1,0 +1,163 @@
+{
+  "id": "math",
+  "type": "math",
+  "name": "Mathematics",
+  "version": 1,
+  "extends": null,
+
+  "requires": {
+    "layoutVersion": 1,
+    "engineVersion": 1,
+    "features": []
+  },
+
+  "metadata": {
+    "language": "Universal",
+    "locale": "und",
+    "author": "Xavatar",
+    "description": "Mathematical operators and scientific symbols",
+    "license": "MIT",
+    "created": "2026-08-02",
+    "updated": "2026-08-02",
+    "tags": [
+      "math",
+      "science"
+    ]
+  },
+
+  "defaults": {
+    "type": "CHAR",
+    "width": 1.0,
+    "height": 56,
+    "enabled": true,
+    "visible": true,
+    "uppercaseLabel": false
+  },
+
+  "rows": [
+
+    {
+      "keys": [
+        { "id": "7" },
+        { "id": "8" },
+        { "id": "9" },
+        { "id": "+" },
+        { "id": "−" },
+        { "id": "×" },
+        { "id": "÷" },
+        { "id": "=" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "4" },
+        { "id": "5" },
+        { "id": "6" },
+        { "id": "(" },
+        { "id": ")" },
+        { "id": "[" },
+        { "id": "]" },
+        { "id": "%" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "1" },
+        { "id": "2" },
+        { "id": "3" },
+        { "id": "<" },
+        { "id": ">" },
+        { "id": "≤" },
+        { "id": "≥" },
+        { "id": "≠" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "0" },
+        { "id": "." },
+        { "id": "π" },
+        { "id": "√" },
+        { "id": "∞" },
+        { "id": "∑" },
+        { "id": "∫" },
+        { "id": "≈" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "α" },
+        { "id": "β" },
+        { "id": "γ" },
+        { "id": "δ" },
+        { "id": "θ" },
+        { "id": "λ" },
+        { "id": "μ" },
+        { "id": "Ω" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "∈" },
+        { "id": "∉" },
+        { "id": "⊂" },
+        { "id": "⊃" },
+        { "id": "∪" },
+        { "id": "∩" },
+        { "id": "∧" },
+        { "id": "∨" }
+      ]
+    },
+
+    {
+      "keys": [
+        {
+          "id": "abc",
+          "label": "ABC",
+          "type": "ACTION",
+          "width": 1.3
+        },
+
+        {
+          "id": "symbols2",
+          "label": "=<",
+          "type": "ACTION",
+          "width": 1.3
+        },
+
+        {
+          "id": "numpad",
+          "label": "123",
+          "type": "ACTION",
+          "width": 1.3
+        },
+
+        {
+          "id": "space",
+          "type": "SPACE",
+          "width": 2.5
+        },
+
+        {
+          "id": "delete",
+          "label": "⌫",
+          "type": "DELETE",
+          "width": 1.3
+        },
+
+        {
+          "id": "enter",
+          "label": "⏎",
+          "type": "ENTER",
+          "width": 1.3
+        }
+      ]
+    }
+
+  ]
+}

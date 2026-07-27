@@ -1,0 +1,150 @@
+{
+  "id": "symbols2",
+  "type": "symbolz",
+  "name": "Extended Symbols",
+  "version": 1,
+  "extends": null,
+
+  "requires": {
+    "layoutVersion": 1,
+    "engineVersion": 1,
+    "features": []
+  },
+
+  "metadata": {
+    "language": "Universal",
+    "locale": "und",
+    "author": "Xavatar",
+    "description": "Extended symbols keyboard",
+    "license": "MIT",
+    "created": "2026-08-02",
+    "updated": "2026-08-02",
+    "tags": [
+      "symbols",
+      "unicode"
+    ]
+  },
+
+  "defaults": {
+    "type": "CHAR",
+    "width": 1.0,
+    "height": 56,
+    "enabled": true,
+    "visible": true,
+    "uppercaseLabel": false
+  },
+
+  "rows": [
+
+    {
+      "keys": [
+        { "id": "~" },
+        { "id": "`" },
+        { "id": "|" },
+        { "id": "\\" },
+        { "id": "^" },
+        { "id": "§" },
+        { "id": "¶" },
+        { "id": "•" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "©" },
+        { "id": "®" },
+        { "id": "™" },
+        { "id": "✓" },
+        { "id": "✔" },
+        { "id": "✕" },
+        { "id": "★" },
+        { "id": "☆" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "←" },
+        { "id": "→" },
+        { "id": "↑" },
+        { "id": "↓" },
+        { "id": "↔" },
+        { "id": "⇒" },
+        { "id": "⇐" },
+        { "id": "↻" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "$" },
+        { "id": "€" },
+        { "id": "£" },
+        { "id": "¥" },
+        { "id": "₹" },
+        { "id": "₽" },
+        { "id": "₩" },
+        { "id": "₿" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "½" },
+        { "id": "⅓" },
+        { "id": "⅔" },
+        { "id": "¼" },
+        { "id": "¾" },
+        { "id": "⅕" },
+        { "id": "⅖" },
+        { "id": "⅞" }
+      ]
+    },
+
+    {
+      "keys": [
+        {
+          "id": "abc",
+          "label": "ABC",
+          "type": "ACTION",
+          "width": 1.5
+        },
+
+        {
+          "id": "symbols",
+          "label": "?123",
+          "type": "ACTION",
+          "width": 1.5
+        },
+
+        {
+          "id": "math",
+          "label": "=<",
+          "type": "ACTION",
+          "width": 1.5
+        },
+
+        {
+          "id": "space",
+          "type": "SPACE",
+          "width": 3.0
+        },
+
+        {
+          "id": "delete",
+          "label": "⌫",
+          "type": "DELETE",
+          "width": 1.5
+        },
+
+        {
+          "id": "enter",
+          "label": "⏎",
+          "type": "ENTER",
+          "width": 1.5
+        }
+      ]
+    }
+
+  ]
+}
