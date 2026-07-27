@@ -1,0 +1,148 @@
+1. Translate settings.gradle to kotlin
+2. shrink app build.gradle.kts
+3. add test to src/tests
+4. learn more about the resources folder in main not res
+5. Log errors and edgecases
+6. implement plugin auto-registration safely
+add key for double letters 
+allow swiping rows
+circular alternatibes
+easter eggs lile boardception
+stats
+leaderboard
+random emoji
+scripting
+// add theme with grave tablets as keys
+// add autoscale if height is denied
+introduce growibg keys
+
+
+represent layout in multiple languages
+ie(toml, yaml, protocal buffer, xml, lisp, bin, hocon, json, lua, ini, kotlin)
+and Custom ALang{
+layout qwerty
+
+language "English"
+
+row
+  q w e r t y u i o p
+
+row
+  a s d f g h j k l
+
+row
+  shift(1.5)
+  z x c v b n m
+  delete(1.5)
+
+row
+  symbols(1.4)
+  emoji(1.2)
+  space(4.5)
+  enter(1.6)
+}
+
+
+ir{
+Keyboard
+
+ Row
+
+  Key CHAR "q"
+
+  Key CHAR "w"
+
+  Key CHAR "e"
+
+ Row
+
+  Key SHIFT
+
+  Key CHAR "z"
+
+  Key DELETE
+}
+
+
+
+
+// TODO: Numeric keypad improvements
+//
+// Layout:
+// - Add missing calculator actions:
+//     - ± (negative / sign toggle)
+//     - AC (clear all)
+//     - CE (clear entry)
+//     - optional: backspace behaviour improvements
+//
+// - Review bottom control row density:
+//     - Current row has ABC, math, symbols, space, delete, enter.
+//     - Consider splitting controls into multiple rows or reducing controls.
+//
+// - Improve operator key sizing:
+//     - Give +, −, ×, ÷, = slightly larger widths for easier thumb access.
+//
+// - Consider alternate numeric layouts:
+//     - Calculator style:
+//         7 8 9 ÷
+//         4 5 6 ×
+//         1 2 3 −
+//         0 . = +
+//     - Phone keypad style:
+//         1 2 3
+//         4 5 6
+//         7 8 9
+//         * 0 #
+//
+// Locale:
+// - Keep locale as "und" for universal layouts.
+// - Add locale-aware decimal separators:
+//     - en_US -> .
+//     - de_DE -> ,
+//     - fr_FR -> ,
+//     - ar -> ٫
+//
+// - Add locale-aware number formatting later.
+//
+// Actions:
+// - Avoid relying only on key "id" for behaviour.
+// - Add explicit action field:
+//
+//   {
+//     "id": "clear",
+//     "label": "C",
+//     "type": "ACTION",
+//     "action": "CLEAR"
+//   }
+//
+// - Create a command/action registry instead of hardcoded checks.
+//
+// Future scientific mode:
+// - Add optional scientific operators:
+//     - ^
+//     - √
+//     - π
+//     - sin
+//     - cos
+//     - tan
+//
+// Feedback:
+// - Allow keys to define custom feedback:
+//     - sound
+//     - haptic strength
+//     - visual animation
+//
+// Engine:
+// - Support key variants based on:
+//     - locale
+//     - layout mode
+//     - user preferences
+//
+// Testing:
+// - Verify:
+//     - decimal input
+//     - negative numbers
+//     - operator chaining
+//     - clear behaviour
+//     - parentheses balancing
+//     - switching between ABC/math/symbol layouts

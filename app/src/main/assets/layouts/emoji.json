@@ -1,0 +1,99 @@
+{
+  "id": "emoji",
+  "type": "emoji",
+  "name": "Emoji",
+  "version": 1,
+  "extends": "qwerty",
+
+  "requires": {
+    "layoutVersion": 1,
+    "engineVersion": 1,
+    "features": [
+      "emoji"
+    ]
+  },
+
+  "metadata": {
+    "language": "Universal",
+    "locale": "en-US",
+    "author": "Xavatar",
+    "description": "Emoji keyboard layout",
+    "license": "MIT",
+    "created": "2026-07-26",
+    "updated": "2026-07-26",
+    "tags": [
+      "emoji"
+    ]
+  },
+
+  "defaults": {
+    "type": "CHAR",
+    "width": 1.0,
+    "height": 56,
+    "enabled": true,
+    "visible": true,
+    "uppercaseLabel": false
+  },
+
+  "rows": [
+
+    {
+      "keys": [
+        {"id":"😀"}, {"id":"😂"}, {"id":"😍"}, {"id":"🤣"},
+        {"id":"😎"}, {"id":"😭"}, {"id":"😡"}, {"id":"🤔"}
+      ]
+    },
+
+    {
+      "keys": [
+        {"id":"👍"}, {"id":"👎"}, {"id":"❤️"}, {"id":"🔥"},
+        {"id":"🎉"}, {"id":"💀"}, {"id":"👻"}, {"id":"🤖"}
+      ]
+    },
+
+    {
+      "keys": [
+        {"id":"🐱"}, {"id":"🐶"}, {"id":"🦊"}, {"id":"🐸"},
+        {"id":"🐼"}, {"id":"🦁"}, {"id":"🐯"}, {"id":"🐵"}
+      ]
+    },
+
+    {
+      "keys": [
+        {"id":"🌍"}, {"id":"⭐"}, {"id":"✨"}, {"id":"🌙"},
+        {"id":"☀️"}, {"id":"🌈"}, {"id":"🍎"}, {"id":"🍕"}
+      ]
+    },
+
+    {
+      "keys": [
+        {
+          "id":"abc",
+          "label":"ABC",
+          "type":"ACTION",
+          "width":1.4
+        },
+
+        {
+          "id":"symbols",
+          "label":"?123",
+          "type":"SYMBOLS",
+          "width":1.4
+        },
+
+        {
+          "id":"space",
+          "type":"SPACE",
+          "width":5.5
+        },
+
+        {
+          "id":"enter",
+          "label":"⏎",
+          "type":"ENTER",
+          "width":1.6
+        }
+      ]
+    }
+  ]
+}

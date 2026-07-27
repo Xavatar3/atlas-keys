@@ -16,7 +16,7 @@ android {
     minSdk = 24 //Android 6.0 - Marshmellow(update later)
     targetSdk = 35 // API 35 (Android 15)
     versionCode = 1 // Set by versioning plugin
-    //versionName = "0.0.0" // Set by versioning plugin
+    versionName = "0.0.0" // Set by versioning plugin
   }
   
   buildFeatures {
@@ -61,7 +61,7 @@ android {
 
 versioning {
     enabled = true
-  }
+}
 
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")

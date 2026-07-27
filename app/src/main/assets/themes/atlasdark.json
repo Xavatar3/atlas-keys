@@ -1,0 +1,39 @@
+{
+  "id": "dark",
+  "name": "Atlas Dark",
+  "version": 1,
+
+  "metadata": {
+    "author": "Xavatar",
+    "description": "Default dark theme"
+  },
+
+  "colors": {
+    "keyboard": "#181818",
+    "toolbar": "#202020",
+    "key": "#2A2A2A",
+    "keyPressed": "#404040",
+    "text": "#FFFFFF",
+    "secondaryText": "#BDBDBD",
+    "accent": "#4FC3F7",
+    "border": "#303030"
+  },
+
+  "dimensions": {
+    "cornerRadius": 12,
+    "borderWidth": 1,
+    "keySpacing": 4,
+    "rowSpacing": 6
+  },
+
+  "typography": {
+    "font": "default",
+    "size": 18,
+    "weight": "normal"
+  },
+
+  "animation": {
+    "pressDuration": 100,
+    "popupDuration": 120
+  }
+}
