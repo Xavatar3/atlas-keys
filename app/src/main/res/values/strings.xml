@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">AtlasKeys</string>
-	<string name="subtype_english">AtlasKeys - English</string>
-	<string name="subtype_luganda">AtlasKeys - Luganda</string>
+    <string name="app_name">AtlasKeys</string>
+    <string name="subtype_arabic">AtlasKeys - Arabic</string>
+    <string name="subtype_english">AtlasKeys - English</string>
+    <string name="subtype_luganda">AtlasKeys - Luganda</string>
+    <string name="subtype_spanish">AtlasKeys - Spanish</string>
 </resources>

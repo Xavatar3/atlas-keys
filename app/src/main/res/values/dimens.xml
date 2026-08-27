@@ -12,10 +12,10 @@
   <!-- Keys -->
   <dimen name="key_cr">11dp</dimen>
   <dimen name="key_bw">1dp</dimen>
-  <dimen name="key_el">4dp</dimen>
-  <dimen name="key_fs">21sp</dimen>
-  <dimen name="key_fs_sp">21sp</dimen>
-  <dimen name="key_pad">4dp</dimen>
+  <dimen name="key_el">11dp</dimen>
+  <dimen name="key_fs">13sp</dimen>
+  <dimen name="key_fs_sp">15sp</dimen>
+  <dimen name="key_pad">2dp</dimen>
   <dimen name="key_mgn">3dp</dimen>
   
   <!-- Special Keys -->
