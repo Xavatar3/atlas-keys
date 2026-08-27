@@ -1,0 +1,80 @@
+{
+  "id": "qwerty",
+  "type": "qwerty",
+  "name": "English QWERTY",
+  "version": 1,
+  "extends": null,
+
+  "requires": {
+    "layoutVersion": 1,
+    "engineVersion": 1,
+    "features": [
+      "longPress",
+      "suggestions",
+      "popup"
+    ]
+  },
+
+  "metadata": {
+    "language": "English",
+    "locale": "en-US",
+    "author": "Xavatar",
+    "description": "Standard English QWERTY keyboard layout",
+    "license": "MIT",
+    "created": "2026-07-26",
+    "updated": "2026-07-26",
+    "tags": [
+      "latin",
+      "english",
+      "qwerty"
+    ]
+  },
+
+  "defaults": {
+    "type": "CHAR",
+    "width": 1.0,
+    "height": 56,
+    "enabled": true,
+    "visible": true,
+    "uppercaseLabel": true
+  },
+
+  "rows": [
+    {
+      "keys": [
+        { "id": "q" }, { "id": "w" }, { "id": "e" },
+        { "id": "r" }, { "id": "t" }, { "id": "y" },
+        { "id": "u" }, { "id": "i" }, { "id": "o" },
+        { "id": "p" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "a", "hint": "@" }, { "id": "s" },
+        { "id": "d" }, { "id": "f" }, { "id": "g" },
+        { "id": "h" }, { "id": "j" }, { "id": "k" },
+        { "id": "l" }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "shift", "label": "⇧", "type": "SHIFT", "width": 1.4 },
+        { "id": "z" }, { "id": "x" }, { "id": "c" },
+        { "id": "v" }, { "id": "b" }, { "id": "n" },
+        { "id": "m" },
+        { "id": "delete", "label": "⌫", "type": "DELETE", "width": 1.4 }
+      ]
+    },
+
+    {
+      "keys": [
+        { "id": "symbols", "label": "?123", "type": "SYMBOLS", "width": 1.4 },
+        { "id": "emoji", "label": "👻", "type": "EMOJI", "width": 1.3 },
+        { "id": "space", "type": "SPACE", "width": 5.5 },
+        { "id": "enter", "label": "⏎", "type": "ENTER", "width": 1.6 }
+      ]
+    }
+  ]
+}

@@ -14,7 +14,7 @@
 
 	<subtype
 		android:label="@string/subtype_luganda"
-		android:imeSubtypeLocale="es_ES"
+		android:imeSubtypeLocale="lg_Ug"
 		android:icon="@mipmap/ic_launcher"
 		android:imeSubtypeMode="keyboard"/>
 </input-method>

@@ -1,0 +1,14 @@
+package io.xavatarlabs.atlaskeys.keyboard.emoji
+
+import kotlin.random.Random
+
+object EmojiProvider {
+  private val emojis = listOf(
+    "😀", "😂", "😍", "😎",
+    "🔥", "🚀", "👻", "🤖",
+    "❤️", "👍", "👏", "🎉",
+    "😈", "🥶", "😭", "🤔",
+    "💀", "✨", "🍕", "☕"
+  )
+  fun random(): String { return emojis[Random.nextInt(emojis.size)] }
+}
