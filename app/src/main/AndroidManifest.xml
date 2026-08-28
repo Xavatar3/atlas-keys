@@ -14,7 +14,7 @@
       android:allowBackup="false">
 
     <!-- Main activity -->
-    <activity android:name=".App" android:exported="true">
+    <activity android:name=".app.App" android:theme="@style/Theme.Atlas" android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>

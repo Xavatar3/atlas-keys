@@ -124,23 +124,23 @@ jobs:
           mv "$APK" "Atlas-keys-${VERSION}-release.apk"
           ls
 
-      - name: Upload Debug APK 📤
+      - name: Prepare Artifact 📦
+        run: |
+          mkdir -p artifact/apks
+          mkdir -p artifact/reports
+          cp -r app/build/outputs/apk/release/Atlas-keys-*-release.apk artifact/apks/
+          cp -r app/build/outputs/apk/debug/Atlas-keys-*-debug.apk artifact/apks/
+          cp -r app/build/reports/. artifact/reports/ 2>/dev/null || true
+          cp -r build/reports/. artifact/reports/ 2>/dev/null || true
+
+      - name: Upload Artifact 📤
         uses: actions/upload-artifact@v4
         with:
-          name: AtlasKeys-debug-v${{ steps.get_version.outputs.version_name }}
-          path: |
-            app/build/outputs/apk/debug/Atlas-keys-*-debug.apk
-            app/build/outputs/apk/release/Atlas-keys-*-release.apk
-            build/reports/**
-            app/build/reports/**
+          name: AtlasKeys-${{ steps.get_version.outputs.version_name }}
+          path: artifact/**
           if-no-files-found: error
 
-      - name: Upload Release APK 📤
-        uses: actions/upload-artifact@v4
-        with:
-          name: AtlasKeys-release-v${{ steps.get_version.outputs.version_name }}
-          path: app/build/outputs/apk/release/Atlas-keys-*-release.apk
-          if-no-files-found: error
 
 
 # Add pro, beta, alpha, prod, debug etc
+# Have alog of outputs from shell.
