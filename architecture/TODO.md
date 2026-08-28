@@ -18,3 +18,31 @@ Path - *app/src/main/AndroidManifest.xml*
 **read/write:** Importing/Exporting local resources.  
 
 **Note:** *Optional, only requested when required.*  
+
+### App 
+- Localize for several languages
+- Rename or move, app.kt, and re-allocate folders to other files
+
+### App.kt
+Path - *app/App.kt*
+- Make Onboarding appear only initially and persist. not every time when switching key boards
+
+### Theme.kt
+Path - *app/theme.kt*
+- Move themes to json
+
+### Splash.kt
+- Reimplentent it using androids Splash screeb api
+
+### CI/CD
+Path - *.github/workflows/keyforge.yml*
+- Split debug and release steps into parallel jobs.
+- Keep alive for warm rebuilds for sometime or after failure
+- get gradle stats like time and size usage
+- Improve cache
+- Set up and implement an emulator with tests
+- Merge the build reports folder into its parent.
+
+### Gradle
+Path - *app/build.gradle.kts*
+- Have both AAP and APK.

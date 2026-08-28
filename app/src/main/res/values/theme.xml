@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- <style name="Theme.KeyboardApp" parent="Theme.Material3.DayNight.NoActionBar"> -->
+    <style name="Theme.Atlas" parent="Theme.Material3.DayNight.NoActionBar">
     <!-- Primary brand colors -->
     <!--<item name="colorPrimary">@color/primary</item>
     <item name="colorOnPrimary">@color/on_primary</item>-->
@@ -22,5 +22,5 @@
     <!--<item name="keyboardBackground">?attr/colorSurface</item>
     <item name="keyboardKeyColor">@color/keyboard_key</item>
     <item name="keyboardKeyTextColor">@color/keyboard_key_text</item>-->
-  <!-- </style> -->
+    </style>
 </resources>

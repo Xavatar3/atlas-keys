@@ -79,16 +79,15 @@ dependencies {
 
     // Core Compose UI
     implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.activity:activity-compose:1.12.4")
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material:material")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.savedstate:savedstate:1.4.0")
+    implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.savedstate:savedstate-ktx:1.4.0")
-    implementation("androidx.compose.material:material")
-    
+    implementation("androidx.activity:activity-compose:1.12.4")
     implementation("androidx.lifecycle:lifecycle-runtime:2.10.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.10.0")
-
+    implementation("androidx.compose.material:material-icons-extended")
+    
     debugImplementation("androidx.compose.ui:ui-tooling")
 }

@@ -1,18 +1,18 @@
 package io.xavatarlabs.atlaskeys.services
 
 // Android
-import android.view.View
-import android.view.inputmethod.EditorInfo
+import android.view.View 
+import android.view.inputmethod.EditorInfo 
 
 // Androidx
-import androidx.lifecycle.setViewTreeLifecycleOwner
-import androidx.lifecycle.setViewTreeViewModelStoreOwner
-import androidx.savedstate.setViewTreeSavedStateRegistryOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner 
+import androidx.lifecycle.setViewTreeViewModelStoreOwner 
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner 
 
 // AtlasKeys
-import io.xavatarlabs.atlaskeys.Keyboard
-import io.xavatarlabs.atlaskeys.core.Atlas
-import io.xavatarlabs.atlaskeys.controller.KController
+import io.xavatarlabs.atlaskeys.Keyboard 
+import io.xavatarlabs.atlaskeys.core.Atlas 
+import io.xavatarlabs.atlaskeys.controller.KController 
 
 
 class IMEService: ComposeIMEService(){
@@ -47,8 +47,8 @@ class IMEService: ComposeIMEService(){
   }
 
   override fun onDestroy(){
-    super.onDestroy()
     controller.destroy()
+    super.onDestroy()
   }
 }
 // TODO
