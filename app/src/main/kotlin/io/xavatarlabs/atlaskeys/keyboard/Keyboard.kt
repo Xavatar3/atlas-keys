@@ -12,7 +12,6 @@ import io.xavatarlabs.atlaskeys.keyboard.Body
 import io.xavatarlabs.atlaskeys.engine.KEngine 
 import io.xavatarlabs.atlaskeys.keyboard.State 
 import io.xavatarlabs.atlaskeys.keyboard.CtrlPanel 
-//import io.xavatarlabs.atlaskeys.theme.ThemeManager 
 import io.xavatarlabs.atlaskeys.keyboard.layout.LayoutId 
 import io.xavatarlabs.atlaskeys.keyboard.emoji.EmojiProvider 
 
@@ -22,7 +21,6 @@ class Keyboard @JvmOverloads constructor(context: Context): LinearLayout(context
   private val body = Body(context)
   private var engine: KEngine? = null
   private val ctrls = CtrlPanel(context)
-  //private var themeManager: ThemeManager? = null
 
 
   init {
@@ -45,17 +43,14 @@ class Keyboard @JvmOverloads constructor(context: Context): LinearLayout(context
   fun switch(layout: LayoutId){ body.switch(engine?.render(layout)); refresh() }
 
   fun showKeyboard() {
-    //body.visibility = VISIBLE
     //ctrls.visibility = VISIBLE
     body.hideOverlay()
   }
 
   fun showOverlay(view: View) {
-    //body.visibility = GONE
     //ctrls.visibility = GONE
     body.showOverlay(view)
   }
-  //fun attachTheme(themeManager: ThemeManager) { this.themeManager = themeManager }
 
   fun setOnControlClick(listener: (String)->Unit){ ctrls.setOnControlClick(listener) }
 

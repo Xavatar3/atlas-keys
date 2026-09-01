@@ -24,7 +24,7 @@ import io.xavatarlabs.atlaskeys.keyboard.layout.models.KType
 class KController {
   private var shift = false
   private val state = State()
-  private val kengine = KEngine
+  private val kengine = KEngine()
   private val context = Atlas.context
   private val inputEngine = InputEngine
   private var ic: InputConnection? = null

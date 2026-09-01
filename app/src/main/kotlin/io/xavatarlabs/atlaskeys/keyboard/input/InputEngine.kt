@@ -4,7 +4,7 @@ package io.xavatarlabs.atlaskeys.keyboard.input
 import android.view.inputmethod.InputConnection 
 
 // AtlasKeys
-import io.xavatarlabs.atlaskeys.engine.runtime.RKey 
+import io.xavatarlabs.atlaskeys.engine.kengine.runtime.RKey 
 import io.xavatarlabs.atlaskeys.keyboard.layout.models.KType 
 
 

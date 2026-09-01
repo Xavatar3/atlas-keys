@@ -1,8 +1,8 @@
-package io.xavatarlabs.atlaskeys.engine
+package io.xavatarlabs.atlaskeys.engine.kengine
 
 // AtlasKeys
 import io.xavatarlabs.atlaskeys.keyboard.layout.models.* 
-import io.xavatarlabs.atlaskeys.engine.runtime.* 
+import io.xavatarlabs.atlaskeys.engine.kengine.runtime.* 
 
 
 object Resolver {

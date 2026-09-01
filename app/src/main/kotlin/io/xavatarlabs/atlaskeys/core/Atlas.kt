@@ -12,7 +12,8 @@ object Atlas {
     private set
   lateinit var feedback: Feedback
     private set
-  
+  var isPasswordField: Boolean = false
+
   fun init(context: Context) {
     this.context = context.applicationContext
     feedback = Feedback(this.context)

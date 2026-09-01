@@ -2,6 +2,7 @@ package io.xavatarlabs.atlaskeys.services
 
 // Android
 import android.view.View 
+import android.text.InputType 
 import android.view.inputmethod.EditorInfo 
 
 // Androidx
@@ -16,41 +17,54 @@ import io.xavatarlabs.atlaskeys.controller.KController
 
 
 class IMEService: ComposeIMEService(){
-  private lateinit var keyboard: View
-  private lateinit var controller: KController 
+    private lateinit var keyboard: View
+    private lateinit var controller: KController 
 
-  override fun onCreate() {
-    super.onCreate()
-    Atlas.init(this)
-    controller = KController()
-    controller.create { content -> createComposeView(content) }
-    keyboard = controller.createView()
-  }
-
-  override fun onCreateInputView(): View{
-    window?.window?.decorView?.let{
-      it.setViewTreeLifecycleOwner(this)
-      it.setViewTreeViewModelStoreOwner(this)
-      it.setViewTreeSavedStateRegistryOwner(this)
+    override fun onCreate() {
+        super.onCreate()
+        Atlas.init(this)
+        controller = KController()
+        controller.create { content -> createComposeView(content) }
+        keyboard = controller.createView()
     }
-    attachComposeOwners(keyboard)
-    return keyboard
-  }
+
+    override fun onCreateInputView(): View{
+        window?.window?.decorView?.let{
+            it.setViewTreeLifecycleOwner(this)
+            it.setViewTreeViewModelStoreOwner(this)
+            it.setViewTreeSavedStateRegistryOwner(this)
+        }
+        attachComposeOwners(keyboard)
+        return keyboard
+    }
   
-  override fun onStartInput(info: EditorInfo?, restarting: Boolean){
-    super.onStartInput(info, restarting)
-  }
+    override fun onStartInput(info: EditorInfo?, restarting: Boolean){
+        super.onStartInput(info, restarting)
+        Atlas.isPasswordField = isPasswordField(info)
+    }
 
-  override fun onStartInputView( info: EditorInfo?, restarting: Boolean){
-    super.onStartInputView(info, restarting)
-    controller.startInputView(currentInputConnection)
-  }
+    override fun onStartInputView(info: EditorInfo?, restarting: Boolean){
+        super.onStartInputView(info, restarting)
+        controller.startInputView(currentInputConnection)
+    }
 
-  override fun onDestroy(){
-    controller.destroy()
-    super.onDestroy()
-  }
+    override fun onFinishInputView(finishingInput: Boolean) {
+        controller.finishInput()
+        super.onFinishInputView(finishingInput)
+    }
+
+    override fun onDestroy(){
+        controller.destroy()
+        super.onDestroy()
+    }
+
+    private fun isPasswordField(info: EditorInfo?): Boolean {
+        val variation = (info?.inputType ?: 0) and InputType.TYPE_MASK_VARIATION
+        return variation == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
+               variation == InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD ||
+               variation == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD ||
+               variation == InputType.TYPE_NUMBER_VARIATION_PASSWORD
+    }
 }
 // TODO
 // Make Keyboardcome up after switching
-// Also do stuff with those empty overrides

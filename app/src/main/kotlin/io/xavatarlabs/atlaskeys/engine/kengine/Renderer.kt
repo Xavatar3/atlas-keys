@@ -1,4 +1,4 @@
-package io.xavatarlabs.atlaskeys.engine
+package io.xavatarlabs.atlaskeys.engine.kengine
 
 // Android
 import android.view.Gravity 
@@ -7,7 +7,7 @@ import android.widget.TextView
 import android.widget.LinearLayout 
 
 // AtlasKeys
-import io.xavatarlabs.atlaskeys.engine.runtime.* 
+import io.xavatarlabs.atlaskeys.engine.kengine.runtime.* 
 import io.xavatarlabs.atlaskeys.keyboard.KeyStore 
 import io.xavatarlabs.atlaskeys.keyboard.LayoutKeys 
 import io.xavatarlabs.atlaskeys.keyboard.key.KeyView 
@@ -40,16 +40,16 @@ class Renderer(private val context: Context){
     }
   }
 
-  fun render(layout: RLayout): LinearLayout{
-    val keyboard = LinearLayout(context)
-    val rows = layout.rows
-    //KeyStore.get(layout.category).clear()
-    store = KeyStore.get(layout.category)
-    keyboard.orientation = LinearLayout.VERTICAL
-    rows.forEach{ row -> keyboard.addView(
-      Row(row),
-      LinearLayout.LayoutParams(match, 0, 1f)
-    )}
-    return keyboard
-  }
+    fun render(layout: RLayout): LinearLayout{
+        val keyboard = LinearLayout(context)
+        val rows = layout.rows
+        store = KeyStore.get(layout.category)
+        store.clear()
+        keyboard.orientation = LinearLayout.VERTICAL
+        rows.forEach{ row -> keyboard.addView(
+            Row(row),
+            LinearLayout.LayoutParams(match, 0, 1f)
+        )}
+        return keyboard
+    }
 }
