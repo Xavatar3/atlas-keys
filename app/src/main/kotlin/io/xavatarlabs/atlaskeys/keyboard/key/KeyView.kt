@@ -4,11 +4,12 @@ package io.xavatarlabs.atlaskeys.keyboard.key
 import android.content.Context 
 import android.view.MotionEvent 
 import android.widget.FrameLayout 
+import android.view.HapticFeedbackConstants 
 
 // AtlasKeys
 import io.xavatarlabs.atlaskeys.R 
 import io.xavatarlabs.atlaskeys.core.Atlas 
-import io.xavatarlabs.atlaskeys.engine.runtime.RKey 
+import io.xavatarlabs.atlaskeys.engine.kengine.runtime.RKey 
 import io.xavatarlabs.atlaskeys.keyboard.layout.models.KType 
 
 
@@ -16,15 +17,15 @@ class KeyView @JvmOverloads constructor(context: Context) : FrameLayout(context)
   private lateinit var key: RKey
   private val surface = KeySurface(context)
   private var onKeyPressed: ((RKey) -> Unit)? = null
-  lateinit var ktype: KType
-  lateinit var label: String
+  val ktype: KType get() = key.ktype
+  val label: String get() = key.label
 
   init {
     val pad = resources.getDimensionPixelSize(R.dimen.key_pad)
     val match = LayoutParams.MATCH_PARENT
-    
     isClickable = true
     isFocusable = true
+    isHapticFeedbackEnabled = true
     setPadding(pad, pad, pad, pad)
     addView(surface, LayoutParams(match, match))
   }
@@ -32,14 +33,12 @@ class KeyView @JvmOverloads constructor(context: Context) : FrameLayout(context)
   override fun onTouchEvent(event: MotionEvent): Boolean {
     when(event.action) {
       MotionEvent.ACTION_DOWN -> {
-        Atlas.feedback.key()
+        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+        Atlas.feedback.key(muteSound = Atlas.isPasswordField)
         press()
       }
       
-      MotionEvent.ACTION_CANCEL -> {
-        
-        release()
-      }
+      MotionEvent.ACTION_CANCEL -> { release() }
       
       MotionEvent.ACTION_UP -> {
         key.let { onKeyPressed?.invoke(it) }
@@ -102,8 +101,6 @@ class KeyView @JvmOverloads constructor(context: Context) : FrameLayout(context)
 
   fun bind(key: RKey){
     this.key = key
-    this.ktype = key.ktype
-    this.label = key.label
     refresh()
   }
 

@@ -33,7 +33,7 @@ import io.xavatarlabs.atlaskeys.BuildConfig
  * before super.onCreate()
  */
 
-private const val SPLASH_DURATION = 1100
+private const val SPLASH_DURATION = 400
 
 @Composable
 fun SplashScreen(onFinished: () -> Unit) {

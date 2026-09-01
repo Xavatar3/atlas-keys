@@ -34,6 +34,11 @@ Path - *app/theme.kt*
 ### Splash.kt
 - Reimplentent it using androids Splash screeb api
 
+### Repository.kt
+Path - *engine/kengine/Repository.kt*
+- Store Resolved layouts on disk and load later
+- Add Resolution and prewarming
+
 ### CI/CD
 Path - *.github/workflows/keyforge.yml*
 - Split debug and release steps into parallel jobs.

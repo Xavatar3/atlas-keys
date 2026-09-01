@@ -1,4 +1,4 @@
-package io.xavatarlabs.atlaskeys.engine
+package io.xavatarlabs.atlaskeys.engine.kengine
 
 // JSON
 import org.json.JSONArray 
@@ -8,41 +8,35 @@ import org.json.JSONObject
 import io.xavatarlabs.atlaskeys.keyboard.layout.models.* 
 
 
-object Validator {
-  private lateinit var layout: LModel
-  private val errors = mutableListOf<String>()
+class Validator {
+    private fun checkId(layout: LModel): List<String> =
+        if (layout.id.isBlank()) listOf("Missing layout id.") else emptyList()
+    private fun checkVersion(layout: LModel): List<String> =
+        if (layout.version < 0) listOf("Invalid layout version.") else emptyList()
 
-  private fun checkId(){ if(layout.id.isBlank()){ errors += "Missing layout id." } }
-
-  private fun checkVersion(){ if(layout.version < 0){ errors += "Invalid layout version." } }
-
-  private fun checkRows(){
-    if(layout.rows.isEmpty()){ errors += "Missing rows."; return; }
-    val ids = mutableSetOf<String>()
-    layout.rows.forEach{ row -> checkKeys(row.keys, ids) }
-  }
-
-  private fun checkKeys(keys: List<KModel>, ids: MutableSet<String>){
-    keys.forEach { key ->
-      if(!ids.add(key.id)){ errors += "Duplicate key ${key.id}" }
+    private fun checkRows(layout: LModel): List<String> {
+        if (layout.rows.isEmpty()) return listOf("Missing rows.")
+        val ids = mutableSetOf<String>()
+        val errors = mutableListOf<String>()
+        layout.rows.forEach { row -> checkKeys(row.keys, ids, errors) }
+        return errors
     }
-  }
 
-  // TODO:
-  // Move validation rules into LayoutSchema.
-  // Validator should load rules dynamically.
+    private fun checkKeys(keys: List<KModel>, ids: MutableSet<String>, errors: MutableList<String>) {
+        keys.forEach { key ->
+            if (!ids.add(key.id)) { errors += "Duplicate key ${key.id}" }
+        }
+    }
 
-  // TODO:
-  // Add compatibility checks:
-  // - engine version
-  // - required features
-  // - unsupported key types
-  fun validate(model: LModel): MutableList<String>{
-    layout = model
-    errors.clear()
-    checkId()
-    checkVersion()
-    checkRows()
-    return errors
-  }
+    // TODO:
+    // Move validation rules into LayoutSchema.
+    // Validator should load rules dynamically.
+
+    // TODO:
+    // Add compatibility checks:
+    // - engine version
+    // - required features
+    // - unsupported key types
+    fun validate(model: LModel): List<String> =
+        checkId(model) + checkVersion(model) + checkRows(model)
 }
