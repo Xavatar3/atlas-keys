@@ -1,3 +1,4 @@
+
 name: Key Forge CI
 
 on:
@@ -5,6 +6,17 @@ on:
     branches: [ "main", "dev", "feature**", "refactor**" ]
   pull_request:
     branches: [ "main", "dev" ]
+  workflow_call:
+    inputs:
+      app_name:
+        description: "Name used for APK artifacts"
+        required: false
+        type: string
+        default: "Android-App"
+    secrets:
+      DEBUG_KEYSTORE_BASE64:
+        required: false
+    
   workflow_dispatch:
     inputs:
       build_type:
