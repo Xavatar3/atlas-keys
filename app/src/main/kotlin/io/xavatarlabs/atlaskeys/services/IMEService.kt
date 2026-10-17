@@ -53,10 +53,13 @@ class IMEService: ComposeIMEService(){
         super.onFinishInputView(finishingInput)
     }
 
-    override fun onDestroy(){
-        controller.destroy()
+    override fun onDestroy() {
+    try {
         super.onDestroy()
+    } finally {
+        controller.destroy()
     }
+}
 
     private fun isPasswordField(info: EditorInfo?): Boolean {
         val variation = (info?.inputType ?: 0) and InputType.TYPE_MASK_VARIATION

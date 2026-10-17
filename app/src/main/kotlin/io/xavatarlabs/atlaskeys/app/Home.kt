@@ -17,13 +17,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier 
 import androidx.compose.ui.Alignment 
 import androidx.compose.ui.graphics.Color 
+import androidx.compose.ui.tooling.preview.Preview
 
 // AtlasKeys
 import io.xavatarlabs.atlaskeys.app.theme.Theme 
 import io.xavatarlabs.atlaskeys.keyboard.KeyboardStatus 
 import io.xavatarlabs.atlaskeys.settings.Settings as SettingsScreen
 
-
+// @Preview(showBackground = true)
 @Composable
 fun HomeScreen(theme: Theme, onThemeChange: (Theme) -> Unit, onReplayIntro: () -> Unit) {
     val status = rememberStatus()

@@ -49,10 +49,13 @@ abstract class ComposeIMEService: InputMethodService(), LifecycleOwner, ViewMode
     lifecycleRegistry.currentState = Lifecycle.State.RESUMED
   }
   
-  override fun onFinishInputView(finishingInput: Boolean){
-    lifecycleRegistry.currentState = Lifecycle.State.STARTED
+  override fun onFinishInputView(finishingInput: Boolean) {
     super.onFinishInputView(finishingInput)
-  }
+
+    if (lifecycleRegistry.currentState != Lifecycle.State.DESTROYED) {
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
+    }
+}
 
   override fun onDestroy() {
     lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
