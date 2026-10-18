@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import io.xavatarlabs.atlaskeys.keyboard.layout.Layouts 
 
 
-class Layout @JvmOverloads constructor(context: Context): FrameLayout(context){
+class Layout(context: Context): FrameLayout(context){
   fun switch(view: View?){
     removeAllViews()
     val match = LayoutParams.MATCH_PARENT

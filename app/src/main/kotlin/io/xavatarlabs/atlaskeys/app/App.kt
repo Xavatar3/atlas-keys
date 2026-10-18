@@ -2,6 +2,7 @@ package io.xavatarlabs.atlaskeys.app
 
 // Android
 import android.os.Bundle 
+import android.content.Context 
 
 // Androidx
 import androidx.activity.ComponentActivity 
@@ -9,8 +10,7 @@ import androidx.activity.compose.setContent
 
 // Compose
 import androidx.compose.runtime.* 
-import androidx.compose.ui.Modifier 
-import androidx.compose.foundation.layout.* 
+import androidx.compose.ui.platform.LocalContext 
 import androidx.compose.runtime.saveable.rememberSaveable 
 
 // AtlasKeys
@@ -18,19 +18,24 @@ import io.xavatarlabs.atlaskeys.app.theme.Theme
 import io.xavatarlabs.atlaskeys.app.theme.AtlasTheme 
 
 
+private enum class Display { SPLASH, ONBOARDING, HOME }
+
 class App : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstance: Bundle?) {
+        super.onCreate(savedInstance)
         setContent { Main() }
     }
 }
 
-private enum class Display { SPLASH, ONBOARDING, HOME }
-
 @Composable
 fun Main() {
     val status = rememberStatus()
-    var theme by remember { mutableStateOf(Theme.ATLAS) }
+    val context = LocalContext.current
+    val preferences = remember { context.getSharedPreferences("prefs", Context.MODE_PRIVATE) }  
+    var theme by remember(preferences) {
+        val name = preferences.getString("theme", null) ?: Theme.ATLAS.name
+         mutableStateOf(Theme.entries.firstOrNull { it.name == name } ?: Theme.ATLAS) 
+    }
     var display by remember { mutableStateOf(Display.SPLASH) }
     var showOnboarding by rememberSaveable { mutableStateOf(!status.isDefault) }
 
@@ -49,7 +54,10 @@ fun Main() {
             )
             Display.HOME -> HomeScreen(
                 theme = theme,
-                onThemeChange = { theme = it },
+                onThemeChange = { 
+                    theme = it
+                    preferences.edit().putString("theme", it.name).apply()
+                },
                 onReplayIntro = {
                     showOnboarding = true
                     display = Display.ONBOARDING
