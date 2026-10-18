@@ -4,13 +4,12 @@ package io.xavatarlabs.atlaskeys.keyboard
 import android.view.View 
 import android.content.Context 
 import android.widget.FrameLayout 
-import android.widget.LinearLayout 
 
 // AtlasKeys
 import io.xavatarlabs.atlaskeys.keyboard.body.Layout 
 import io.xavatarlabs.atlaskeys.keyboard.body.Overlay 
 
-class Body @JvmOverloads constructor(context: Context): FrameLayout(context){
+class Body(context: Context): FrameLayout(context){
   private val layout = Layout(context)
   private val overlay = Overlay(context)
 
@@ -19,7 +18,6 @@ class Body @JvmOverloads constructor(context: Context): FrameLayout(context){
     val params = LayoutParams(xl, xl)
     val pad = 4
     setPadding(pad, pad, pad, pad)
-    overlay.visibility = GONE // move to overlay
     addView(layout, params)
     addView(overlay, params)
   }
@@ -35,6 +33,5 @@ class Body @JvmOverloads constructor(context: Context): FrameLayout(context){
   fun showOverlay(view: View) {
     layout.hide()
     overlay.display(view)
-    overlay.bringToFront()
   }
 }
