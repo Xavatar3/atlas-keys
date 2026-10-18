@@ -27,7 +27,11 @@ import io.xavatarlabs.atlaskeys.settings.Settings as SettingsScreen
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
+<<<<<<< HEAD
     HomeScreen(theme = Theme.ATLAS, onThemeChange = {}, onReplayIntro = {})
+=======
+    HomeScreen(theme = Theme.Atlas, onThemeChange = {}, onReplayIntro = {})
+>>>>>>> 615694b796e13ddf2b18a2bfad8f94563aae39fb
 }
 @Composable
 fun HomeScreen(theme: Theme, onThemeChange: (Theme) -> Unit, onReplayIntro: () -> Unit) {
