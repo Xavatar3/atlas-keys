@@ -8,6 +8,10 @@ import android.widget.FrameLayout.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT 
 
 class Overlay(context: Context): FrameLayout(context){
+  init {
+    visibility = GONE
+  }
+  
   fun hide() {
     visibility = GONE
     removeAllViews()
@@ -17,5 +21,6 @@ class Overlay(context: Context): FrameLayout(context){
     removeAllViews()
     addView(view, LayoutParams(MATCH_PARENT, MATCH_PARENT))
     visibility = VISIBLE
+    bringToFront()
   }
 }

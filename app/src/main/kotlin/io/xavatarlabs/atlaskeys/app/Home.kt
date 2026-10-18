@@ -24,7 +24,11 @@ import io.xavatarlabs.atlaskeys.app.theme.Theme
 import io.xavatarlabs.atlaskeys.keyboard.KeyboardStatus 
 import io.xavatarlabs.atlaskeys.settings.Settings as SettingsScreen
 
-// @Preview(showBackground = true)
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen(theme = Theme.Atlas, onThemeChange = {}, onReplayIntro = {})
+}
 @Composable
 fun HomeScreen(theme: Theme, onThemeChange: (Theme) -> Unit, onReplayIntro: () -> Unit) {
     val status = rememberStatus()
