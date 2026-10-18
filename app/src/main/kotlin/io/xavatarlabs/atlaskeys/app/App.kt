@@ -15,7 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 
 // AtlasKeys
 import io.xavatarlabs.atlaskeys.app.theme.Theme 
-import io.xavatarlabs.atlaskeys.app.theme.AtlasTheme 
+import io.xavatarlabs.atlaskeys.app.theme.AppTheme 
 
 
 private enum class Display { SPLASH, ONBOARDING, HOME }
@@ -31,15 +31,16 @@ class App : ComponentActivity() {
 fun Main() {
     val status = rememberStatus()
     val context = LocalContext.current
-    val preferences = remember { context.getSharedPreferences("prefs", Context.MODE_PRIVATE) }  
-    var theme by remember(preferences) {
-        val name = preferences.getString("theme", null) ?: Theme.ATLAS.name
+    val prefs = remember { context.getSharedPreferences("preferences", Context.MODE_PRIVATE) }  
+    var themeName by remember(prefs) {
+        val name = prefs.getString("theme", null) ?: Theme.ATLAS.name
          mutableStateOf(Theme.entries.firstOrNull { it.name == name } ?: Theme.ATLAS) 
     }
-    var display by remember { mutableStateOf(Display.SPLASH) }
-    var showOnboarding by rememberSaveable { mutableStateOf(!status.isDefault) }
 
-    AtlasTheme(theme) {
+    AppTheme(themeName) {
+        var display by remember { mutableStateOf(Display.SPLASH) }
+        var showOnboarding by rememberSaveable { mutableStateOf(!status.isDefault) }
+        
         when (display) {
             Display.SPLASH -> SplashScreen(
                 onFinished = {
@@ -53,10 +54,10 @@ fun Main() {
                 }
             )
             Display.HOME -> HomeScreen(
-                theme = theme,
+                theme = themeName,
                 onThemeChange = { 
-                    theme = it
-                    preferences.edit().putString("theme", it.name).apply()
+                    themeName = it
+                    prefs.edit().putString("theme", it.name).apply()
                 },
                 onReplayIntro = {
                     showOnboarding = true
