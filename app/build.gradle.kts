@@ -74,6 +74,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.8.9")
+
     // Compose BOM
     implementation(platform("androidx.compose:compose-bom:2026.01.01"))
 
