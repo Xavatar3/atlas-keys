@@ -39,11 +39,11 @@ val AtlasTypography = Typography(
 )
 
 @Composable
-fun AppTheme(name: Theme = Theme.ATLAS, content: @Composable () -> Unit) {
+fun AppTheme(theme: Theme = Theme.ATLAS, content: @Composable () -> Unit) {
     MaterialTheme(
         content = content,
         shapes = AtlasShapes,
-        colorScheme = name.scheme,
+        colorScheme = theme.scheme,
         typography = AtlasTypography
     )
 }
