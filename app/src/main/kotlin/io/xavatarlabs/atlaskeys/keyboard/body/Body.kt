@@ -14,9 +14,10 @@ class Body(context: Context): FrameLayout(context){
   private val overlay = Overlay(context)
 
   init {
-    val xl = LayoutParams.MATCH_PARENT
-    val params = LayoutParams(xl, xl)
-    val pad = 4
+    val pad = 8
+    val match = LayoutParams.MATCH_PARENT
+    val params = LayoutParams(match, match)
+    
     setPadding(pad, pad, pad, pad)
     addView(layout, params)
     addView(overlay, params)
