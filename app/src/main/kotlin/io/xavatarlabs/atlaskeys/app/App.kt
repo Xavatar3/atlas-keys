@@ -20,7 +20,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 
 // AtlasKeys
 import io.xavatarlabs.atlaskeys.app.theme.Theme 
-import io.xavatarlabs.atlaskeys.app.theme.AppTheme 
+import io.xavatarlabs.atlaskeys.app.theme.AtlasTheme 
 
 
 private enum class Display { SPLASH, ONBOARDING, HOME }
@@ -50,9 +50,8 @@ fun Main() {
 
     val status = rememberStatus()
     val context = LocalContext.current
-    val navController = rememberNavController()
-    val preferences = remember { context.getSharedPreferences("preferences", Context.MODE_PRIVATE) }  
-    var themeName by remember(preferences) {
+    val preferences = remember { context.getSharedPreferences("prefs", Context.MODE_PRIVATE) }  
+    var theme by remember(preferences) {
         val name = preferences.getString("theme", null) ?: Theme.ATLAS.name
          mutableStateOf(Theme.entries.firstOrNull { it.name == name } ?: Theme.ATLAS) 
     }
@@ -119,7 +118,7 @@ fun Main() {
                 }
             )
             Display.HOME -> HomeScreen(
-                theme = themeName,
+                theme = theme,
                 onThemeChange = { 
                     themeName = it
                     preferences.edit().putString("theme", it.name).apply()
