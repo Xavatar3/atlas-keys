@@ -11,9 +11,8 @@ androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
 
 [plugins]
 android = { id = "com.android.application", version.ref = "agp" }
-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 versioning = { id = "io.github.reactivecircus.app-versioning", version.ref = "versioning" }
 
 [bundles]
-compose = ["androidx-compose-ui", "androidx-compose-material3", "androidx-compose-ui-tooling"]
+compose = []
