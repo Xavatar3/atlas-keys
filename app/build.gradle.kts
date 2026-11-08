@@ -1,29 +1,29 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget 
 
 plugins {
   id("com.android.application")
+  id("io.xavatarlabs.versioning")
   id("org.jetbrains.kotlin.android")
   id("org.jetbrains.kotlin.plugin.compose")
-  id("io.xavatarlabs.versioning")
 }
 
 android {
-  namespace = "io.xavatarlabs.atlaskeys"
-  compileSdk = 36 // Android 14 - UpsideDown Cake(update later)
-  
-  defaultConfig {
-    applicationId = "io.xavatarlabs.atlaskeys"
-    minSdk = 24 //Android 6.0 - Marshmellow(update later)
-    targetSdk = 35 // API 35 (Android 15)
-    versionCode = 1 // Set by versioning plugin
-    versionName = "0.0.0" // Set by versioning plugin
-  }
-  
-  buildFeatures {
-    buildConfig = true // Build Constants
-    viewBinding = true // XML Layout Constants
-    compose = true // Compose Feautures
-  }
+    namespace = "io.xavatarlabs.atlaskeys"
+    compileSdk = 37 // Android 17 -CinnamonBun
+
+    defaultConfig {
+        applicationId = "io.xavatarlabs.atlaskeys"
+        minSdk = 23     // Android 6.0 - Marshmallow
+        targetSdk = 34  // Android 14 - UpsideDown Cake
+        versionCode = 1 // Default(Set by versioning plugin)
+        versionName = "0.0.0" // Default(Set by versioning plugin)
+    }
+
+    buildFeatures {
+        compose = true     // Compose Feautures
+        buildConfig = true // Build Constants
+        viewBinding = true // XML Layout Constants
+    }
   
   buildTypes {
       release {

@@ -1,0 +1,24 @@
+name: Gradle Update
+
+on:
+    schedule:
+      - cron: "0 0 * * 1"   # Every Monday at 00:00 UTC
+    workflow_dispatch:
+
+jobs:
+  update-gradle-wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Update Gradle Wrapper
+        # TODO(security): Pin this action to a full 40-char commit SHA instead of a mutable tag.
+        # Current: @v2 (mutable — can be moved by upstream)
+        # How to resolve: gh api repos/gradle-update/update-gradle-wrapper-action/commits/v2 --jq '.sha'
+        # Or visit: https://github.com/gradle-update/update-gradle-wrapper-action/releases
+        # Then replace @v2 with @<sha>  # v2.x.y
+        # Reference: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+        # Then test whether dependabot autoupdates it
+        uses: gradle-update/update-gradle-wrapper-action@v2
+        with:
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
