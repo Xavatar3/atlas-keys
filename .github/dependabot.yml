@@ -1,0 +1,19 @@
+version: 2
+updates:
+    # GitHub Actions in .github/workflows/
+    - package-ecosystem: "github-actions"
+        directory: "/"
+        schedule:
+            interval: "weekly"
+        groups:
+            actions:
+                patterns: ["*"]
+
+    # Gradle deps in libs.versions.toml + build.gradle.kts
+    - package-ecosystem: "gradle"
+        directory: "/"
+        schedule:
+            interval: "weekly"
+        groups:
+            gradle:
+                patterns: ["*"]
