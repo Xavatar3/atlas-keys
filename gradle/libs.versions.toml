@@ -1,0 +1,19 @@
+# Centralised Versions
+[versions]
+agp = "9.3.0" # "8.9.1", "8.2.0"
+ktx = "1.9.0"
+kotlin = "2.3.0" # "1.9.22"
+versioning = "1.5.0"
+composeBom = "2024.02.00"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
+
+[plugins]
+android = { id = "com.android.application", version.ref = "agp" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+versioning = { id = "io.github.reactivecircus.app-versioning", version.ref = "versioning" }
+
+[bundles]
+compose = ["androidx-compose-ui", "androidx-compose-material3", "androidx-compose-ui-tooling"]

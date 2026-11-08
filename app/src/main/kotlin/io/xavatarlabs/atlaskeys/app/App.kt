@@ -9,10 +9,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent 
 
 // Navigation
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavType 
+import androidx.navigation.compose.NavHost 
+import androidx.navigation.compose.composable 
+import androidx.navigation.compose.rememberNavController 
 
 // Compose
 import androidx.compose.runtime.* 

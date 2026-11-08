@@ -3,11 +3,6 @@ plugins {
     `java-gradle-plugin`
 }
 
-repositories {
-    google()
-    mavenCentral()
-}
-
 gradlePlugin {
   plugins {
     create("versioning") {
@@ -18,5 +13,6 @@ gradlePlugin {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:8.9.1")
+    compileOnly("com.android.tools.build:gradle:8.9.1")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0")
 }
