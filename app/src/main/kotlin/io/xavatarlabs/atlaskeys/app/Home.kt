@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 // AtlasKeys
 import io.xavatarlabs.atlaskeys.app.theme.Theme 
 import io.xavatarlabs.atlaskeys.keyboard.KeyboardStatus 
-import io.xavatarlabs.atlaskeys.settings.Settings as SettingsScreen
+import io.xavatarlabs.atlaskeys.settings.Settingsx as SettingsScreen
 
 @Preview(showBackground = true)
 @Composable

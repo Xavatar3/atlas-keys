@@ -12,7 +12,7 @@ import io.xavatarlabs.atlaskeys.settings.Panel
 import io.xavatarlabs.atlaskeys.keyboard.State 
 import io.xavatarlabs.atlaskeys.engine.KEngine 
 import androidx.compose.material3.MaterialTheme 
-import io.xavatarlabs.atlaskeys.settings.Settings 
+import io.xavatarlabs.atlaskeys.settings.Settingsx as Settings
 import io.xavatarlabs.atlaskeys.keyboard.KeyStore 
 import io.xavatarlabs.atlaskeys.keyboard.input.Actions 
 import io.xavatarlabs.atlaskeys.keyboard.layout.LayoutId 
