@@ -1,113 +1,170 @@
-name: Key Forge CI
+name: Forge CI
 
 on:
   push:
-    branches: [ "main", "dev", "feature**", "refactor**" ]
+    # TODO: include docs once linting is wired up
+    branches-ignore:
+      - dev
+      - docs
+      - release
   pull_request:
-    branches: [ "main", "dev" ]
+    branches:
+      - dev
+      - release
   workflow_call:
     inputs:
       app_name:
-        description: "Name used for APK artifacts"
-        required: false
+        description: "Prefix for APK artifact names (e.g. atlaskeys → atlaskeys-debug.apk)"
         type: string
-        default: "Android-App"
+        required: false
+      build_type:
+        description: "Build variant: debug or release"
+        type: string
+        default: "debug"
+        required: false
     secrets:
       DEBUG_KEYSTORE_BASE64:
+        description: "Base64-encoded debug keystore, automatically generates a temporary one if not provided"
         required: false
-    
   workflow_dispatch:
     inputs:
+      app_name:
+        description: "Prefix for APK artifact names (e.g. atlaskeys → atlaskeys-debug.apk)"
+        type: string
+        required: false
       build_type:
-        description: 'Select build type'
-        required: true
+        description: "Build variant: debug or release"
         default: 'debug'
         type: choice
         options:
           - debug
           - release
+      bootstrap_keystore:
+        description: "Generate a fresh debug keystore (Delete after download)"
+        type: boolean
+        default: false
 
 jobs:
-  build:
+  Forge:
     runs-on: ubuntu-latest
-
+    env:
+      APP_NAME: "${{ inputs.app_name || github.event.repository.name }}"
+      BUILD_TYPE: "${{ inputs.build_type || 'debug' }}"
+      BUILD_TYPES: "debug release"
+      BOOTSTRAP_KEYSTORE: "${{  inputs.bootstrap_keystore || false }}"
+    
     steps:
-      - name: Checkout Code
+      - name: Validate Build Type
+        if: github.event_name == 'workflow_call'
+        run: |
+          if [[ " ${BUILD_TYPES,,} " == *" ${BUILD_TYPE,,} "* ]]; then
+            echo "Build Type: $BUILD_TYPE"
+          else
+            echo "Invalid Build Type: $BUILD_TYPE"
+            echo "Expected: $BUILD_TYPES"
+            exit 1
+          fi
+        
+      - name: Checkout Repo
         uses: actions/checkout@v4
         with:
-            fetch-depth: 0
-      
+          fetch-depth: 0
+          persist-credentials: false
+        
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Cache Gradle Packages📦
-        uses: actions/cache@v3
+        
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper/
-          key: gradle-cache-${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles(
-              '**/*.gradle',
-              '**/*.gradle.kts',
-              '**/settings.gradle',
-              '**/settings.gradle.kts',
-              '**/gradle.properties',
-              '**/gradle-wrapper.properties',
-              '**/libs.versions.toml'
-            ) }}
-          restore-keys: |
-            gradle-cache-${{ runner.os }}-${{ github.ref_name }}-
-            gradle-cache-${{ runner.os }}-main-
-
-      - name: Prepare environment
-        run: chmod +x ./gradlew
-
-      # — Restore Debug Keystore from Secret —
-      - name: Restore Debug Keystore
-        id: restore_keystore
+          cache-read-only: false # Incase of misses
+          validate-wrappers: true
+        
+      - name: Restore Debug Keystore  # Handle Release Keystore later
+        shell: bash
+        env:
+          KEYSTORE_B64: ${{ secrets.DEBUG_KEYSTORE_BASE64 }}
         run: |
-          if [ -n "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" ]; then
-            mkdir -p .github/keystore
-            printf "%s" "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > .github/keystore/debug.keystore
-            echo "restored=true" >> $GITHUB_OUTPUT
-          else
-            echo "restored=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Generate Keystore if Missing
-        if: steps.restore_keystore.outputs.restored == 'false'
-        run: |
-          mkdir -p .github/keystore
-          keytool -genkeypair -v \
-            -keystore .github/keystore/debug.keystore \
-            -storepass android \
-            -alias androiddebugkey \
-            -keypass android \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -dname "CN=Android Debug,O=Android,C=US"
-          echo "⚠️ No secret found — generated a temporary keystore."
-
-      - name: Print keystore as Base64 🔐
-        run: |
-          base64 .github/keystore/debug.keystore | tee debug_keystore.b64
-          echo "----- COPY the below output into your GitHub secret -----"
-          cat debug_keystore.b64
-
-      - name: Place debug keystore
-        run: |
+          set -euo pipefail
           mkdir -p ~/.android
-          cp .github/keystore/debug.keystore ~/.android/debug.keystore
-
+          
+          if $BOOTSTRAP_KEYSTORE; then
+            keytool -genkeypair -v \
+              -keystore .android/debug.keystore \
+              -storepass android \
+              -alias androiddebugkey \
+              -keypass android \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US"
+            
+            $KEYSTORE_B64=base64 -w 0 .android/debug.keystore
+            echo "Debug keystore generated."
+          fi
+        
+          if [[ "$KEYSTORE_B64" =~ ^[[:space:]]*$ ]]; then
+            echo "Keystore secret is empty"
+            echo "Generating temporary debug key"
+            echo "Run this workflow manually with 'bootstrap_keystore=true' to get one."
+          elif ! printf '%s' "$KEYSTORE_B64" | base64 --decode > ~/.android/debug.keystore; then
+            echo "Invalid Base64 Keystore Secret"
+            echo "Generating temporary debug key"
+            echo "Run this workflow manually with 'bootstrap_keystore=true' to get a new one."
+            rm -f ~/.android/debug.keystore
+          else
+            chmod 600 ~/.android/debug.keystore
+            
+            if ! keytool -list -v \
+              -keystore ~/.android/debug.keystore \
+              -alias androiddebugkey \
+              -storepass android \
+              > /dev/null 2>&1
+            then
+              echo "Invalid Android debug keystore"
+              rm -f ~/.android/debug.keystore
+              exit 1
+            else
+              echo "Debug keystore validated"
+            fi
+            
+            echo "Debug keystore restored."
+          fi
+          
       - name: Lint Check 🧪
-        run: ./gradlew lint
+        run: |
+          chmod +x gradlew
+          
+          if [[ "${BUILD_TYPE:-debug}" == "release" ]]; then
+            ./gradlew lintRelease
+          else
+            ./gradlew lintDebug
+          fi
+          
+      - name: Build APK
+        run: |
+          if [[ "${BUILD_TYPE:-debug}" == "release" ]]; then
+            ./gradlew assembleRelease --stacktrace
+          else
+            ./gradlew assembleDebug --stacktrace
+          fi
+          
+        
+        
+        
+#      - name: Run Unit Tests
+#        run: ./gradlew testDebugUnitTest
+        
+      - name: Save Debug Keystore (Optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-keystore
+          path: ~/.android/debug.keystore
+          if-no-files-found: warn
 
-      - name: Build App
-        run: ./gradlew assembleDebug assembleRelease
 
       - name: Get app version
         id: get_version
@@ -120,27 +177,30 @@ jobs:
       - name: Rename Debug APK 📦
         run: |
           VERSION=${{ steps.get_version.outputs.version_name }}
-          cd app/build/outputs/apk/debug
-          ls
-          APK=$(ls *.apk | head -n 1)
-          mv "$APK" "Atlas-keys-${VERSION}-debug.apk"
-          ls
-
-      - name: Rename Release APK 📦
-        run: |
-          VERSION=${{ steps.get_version.outputs.version_name }}
-          cd app/build/outputs/apk/release
-          ls
-          APK=$(ls *.apk | head -n 1)
-          mv "$APK" "Atlas-keys-${VERSION}-release.apk"
-          ls
+          if [[ "${BUILD_TYPE:-debug}" == "release" ]]; then
+            cd app/build/outputs/apk/release
+            ls
+            APK=$(ls *.apk | head -n 1)
+            mv "$APK" "Atlas-keys-${VERSION}-release.apk"
+            ls
+          else
+            cd app/build/outputs/apk/debug
+            ls
+            APK=$(ls *.apk | head -n 1)
+            mv "$APK" "Atlas-keys-${VERSION}-debug.apk"
+            ls
+          fi
 
       - name: Prepare Artifact 📦
         run: |
           mkdir -p artifact/apks
+          if [[ "${BUILD_TYPE:-debug}" == "release" ]]; then
+            cp -r app/build/outputs/apk/release/Atlas-keys-*-release.apk artifact/apks/
+          else
+            cp -r app/build/outputs/apk/debug/Atlas-keys-*-debug.apk artifact/apks/
+          fi
+          
           mkdir -p artifact/reports
-          cp -r app/build/outputs/apk/release/Atlas-keys-*-release.apk artifact/apks/
-          cp -r app/build/outputs/apk/debug/Atlas-keys-*-debug.apk artifact/apks/
           cp -r app/build/reports/. artifact/reports/ 2>/dev/null || true
           cp -r build/reports/. artifact/reports/ 2>/dev/null || true
 
@@ -155,3 +215,12 @@ jobs:
 
 # Add pro, beta, alpha, prod, debug etc
 # Have alog of outputs from shell.
+
+# yamllint (configurable)
+#yamllint .github/workflows/
+
+# actionlint (GitHub Actions-specific)
+#actionlint
+
+#- name: Lint workflows
+#  uses: reviewdog/action-actionlint@v1
