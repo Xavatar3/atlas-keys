@@ -169,7 +169,7 @@ jobs:
       - name: Get app version
         id: get_version
         run: |
-            APK=$(find app/build/outputs/apk/release -type f -name "*.apk" | head -n 1)
+            APK=$(find app/build/outputs/apk/debug -type f -name "*.apk" | head -n 1)
             AAPT2=$(find "$ANDROID_HOME/build-tools" -name aapt2 -type f | sort -V | tail -n 1)
             VERSION_NAME=$("$AAPT2" dump badging "$APK" | sed -n "s/.*versionName='\([^']*\)'.*/\1/p")
             echo "version_name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
