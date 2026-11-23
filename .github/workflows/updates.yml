@@ -12,7 +12,7 @@ jobs:
         contents: write
         pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         
       - name: Update Gradle Wrapper
         # TODO(security): Pin this action to a full 40-char commit SHA instead of a mutable tag.
