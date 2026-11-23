@@ -66,19 +66,19 @@ jobs:
           fi
         
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
         
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 17
         
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: false # Incase of misses
           validate-wrappers: true
@@ -159,7 +159,7 @@ jobs:
 #        run: ./gradlew testDebugUnitTest
         
       - name: Save Debug Keystore (Optional)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-keystore
           path: ~/.android/debug.keystore
@@ -205,7 +205,7 @@ jobs:
           cp -r build/reports/. artifact/reports/ 2>/dev/null || true
 
       - name: Upload Artifact 📤
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: AtlasKeys-${{ steps.get_version.outputs.version_name }}
           path: artifact/**
