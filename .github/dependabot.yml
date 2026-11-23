@@ -8,6 +8,7 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+        update-types: ["minor", "patch"]  # Major updates get separate PRs
 
   # Gradle deps in libs.versions.toml + build.gradle.kts
   - package-ecosystem: "gradle"
@@ -17,3 +18,5 @@ updates:
     groups:
       gradle:
         patterns: ["*"]
+        update-types: ["minor", "patch"]  # Major updates get separate PRs
+

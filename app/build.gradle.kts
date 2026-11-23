@@ -5,14 +5,18 @@ plugins {
   id("io.xavatarlabs.versioning")
   id("org.jetbrains.kotlin.plugin.compose")
 }
-
 android {
     namespace = "io.xavatarlabs.atlaskeys"
-    compileSdk = 37 // Android 17 -CinnamonBun
+    compileSdk {
+        // Android 17 -CinnamonBun
+        version = release(37) {
+            minorApiLevel = 1
+        }
+    }
 
     defaultConfig {
         applicationId = "io.xavatarlabs.atlaskeys"
-        minSdk = 23     // Android 6.0 - Marshmallow
+        minSdk = 24     // Android 7.0 - Nougat
         targetSdk = 34  // Android 14 - UpsideDown Cake
         versionCode = 1 // Default(Set by versioning plugin)
         versionName = "0.0.0" // Default(Set by versioning plugin)
